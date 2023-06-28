@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show order</title>
+</head>
+<body>
+<p th:text="'Order: ' + ${order.getOwner()} + ' date: ' + ${order.getOrderDate()}"></p>
+<br/>
+<hr/>
+<div th:if="${owner}">
+    <span>Order belongs: </span> <span th:text="${owner.getFirstName() + ' ' + owner.getLastName()}">Person name</span>
+    <form th:method="PATCH" th:action="@{/order/{id}/release(id=${order.getId()})}">
+        <input type="submit" value="Release order"/>
+    </form>
+</div>
+
+<div th:if="${people}">
+    <span>The order does not belong to anyone</span>
+    <form th:method="PATCH" th:action="@{/order/{id}/assign(id=${order.getId()})}">
+        <label for="person">Select person</label>
+        <select th:object="${person}" th:field="*{id}" id="person">
+            <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFirstName() + ' ' + person.getLastName()}">
+            </option>
+        </select>
+
+        <input type="submit" value="Assign order"/>
+    </form>
+</div>
+
+<form th:method="GET" th:action="@{/order/{id}/edit(id=${order.getId()})}">
+    <input type="submit" value="Edit order">
+</form>
+
+<form th:method="DELETE" th:action="@{/order/{id}(id=${order.getId()})}">
+    <input type="submit" value="Delete order">
+</form>
+
+<hr/>
+
+<a href="/order">back</a>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/products/search}">
+    <label for="query">Enter a search: </label>
+    <input type="text" id="query" name="query"/>
+    <input type="submit" value="Search">
+</form>
+
+<div th:each="product : ${products}">
+    <a th:href="@{/products/{id}(id=${product.getId()})}" th:text="${product.getName()} + ', '+ ${product.getPrice()}"></a>
+</div>
+
+<br/>
+<hr/>
+
+<a href="products/new"> Add new product</a>
+<br>
+<a href="/people">People</a>
+
+</body>
+</html>
