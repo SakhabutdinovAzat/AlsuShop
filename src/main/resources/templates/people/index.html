@@ -3,17 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>People</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/main.css"/>
 </head>
 <body>
-<div th:each="person : ${people}">
-    <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getFirstName() + ' ' + person.getLastName() + ',  ' + person.getAge()}">Person</a>
-</div>
+  <div class="header">Header</div>
 
-<br/>
-<hr/>
+  <ul id="nav">
+      <li>Главная</li>
+      <li>О нас</li>
+      <li>Контакты</li>
+    </ul>
+    <div class="asideL">AsideL</div>
 
-<a href="people/new"> Add new person</a>
-<br/>
-<a href="/products">Products</a>
+    <div class="main">
+      <div th:each="person : ${people}">
+          <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getFirstName() + ' ' + person.getLastName() + ',  ' + person.getAge()}">Person</a>
+      </div>
+      <br/>
+      <br/>
+      <a href="/products">Products</a>
+    </div>
+
+    <div class="asideR">AsideR</div>
+    <div class="footer">Footer</div>
+
+    <div id="fixed">Fixed</div>
+
 </body>
 </html>

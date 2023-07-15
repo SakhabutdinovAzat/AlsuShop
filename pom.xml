@@ -8,10 +8,10 @@
 		<version>2.5.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>ru.alsushop</groupId>
-	<artifactId>AlsuShop</artifactId>
+	<groupId>ru.clothingstore</groupId>
+	<artifactId>ClothingStore</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>AlsuShop</name>
+	<name>ClothingStore</name>
 	<description>Online store application project</description>
 	<properties>
 		<java.version>11</java.version>

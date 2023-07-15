@@ -14,7 +14,7 @@
     <input type="text" id="price" th:field="*{price}"/>
     <div style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price error</div>
     <br/>
-    <label for="productType">Select person</label>
+    <label for="productType">Select product type</label>
     <select th:field="*{productType}" id="productType">
         <option th:each="productType : ${productTypes}" th:value="${productType.getId()}" th:text="${productType.getName()}">
         </option>
