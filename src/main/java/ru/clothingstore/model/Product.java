@@ -1,5 +1,10 @@
 package ru.clothingstore.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -8,7 +13,11 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Data
 @Table(name = "Products")
+@EqualsAndHashCode(exclude = {"id", "cart"})
+@ToString(exclude = {"cart"})
+@NoArgsConstructor
 public class Product {
     @Id
     @Column(name = "id")
@@ -28,6 +37,10 @@ public class Product {
     @JoinColumn(name = "type_id", referencedColumnName = "id")
     private ProductType productType;
 
+    @ManyToOne
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private Cart cart;
+
     @ManyToMany(mappedBy = "products")
     private List<Order> orders;
 
@@ -37,8 +50,6 @@ public class Product {
 
     @Transient
     private boolean expired;
-
-    public Product(){}
 
     public Product(String name, int price) {
         this.name = name;

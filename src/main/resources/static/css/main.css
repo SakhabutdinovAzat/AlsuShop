@@ -4,7 +4,7 @@
 
 body{
    height: 2000px;
-   background-color: silver
+   background-color: lavender;
 }
 
 #nav{
@@ -23,12 +23,12 @@ body{
   border: 1px solid black;
   padding: 0 20px;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 #nav li:hover{
   color: #fff;
   background: #333;
-  border-radius: 5px;
 }
 
 #nav li:not(:last-of-type){
@@ -37,27 +37,28 @@ body{
 
 .header{
   background-color: black;
-  height: 150px;
+  height: 100px;
   width: 100%;
   text-align: center;
-  border-bottom: 20px solid silver;
-  line-height: 150px;
+  /*border-bottom: 20px solid silver;*/
+  line-height: 100px;
   color: white;
   float: left;
 }
 .main{
-  background-color: orange;
+  background-color: white;
   height: 79%;
   width: 67%;
-  text-align: center;
-  border: 7px solid silver;
-  line-height: 100px;
+  text-align: left;
+  border: 7px solid lavender;
+  line-height: 20px;
+  padding: 20px;
   color: white;
   float: left;
 }
 
 .asideL{
-  background-color: red;
+  background-color: lavender;
   height: 80%;
   width: 16%;
   text-align: center;
@@ -67,7 +68,7 @@ body{
 }
 
 .asideR{
-  background-color: red;
+  background-color: lavender;
   height: 80%;
   width: 16%;
   text-align: center;
@@ -77,7 +78,7 @@ body{
 }
 
 .footer{
-  background-color: black;
+  background-color: dimgray;
   height: 250px;
   width: 100%;
   text-align: center;

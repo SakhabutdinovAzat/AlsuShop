@@ -55,9 +55,8 @@ public class OrdersController {
     }
 
     @GetMapping("/new")
-    public String newItem(Model model) {
+    public String newOrder(Model model) {
         model.addAttribute("order", new Order());
-
         return "orders/new";
     }
 

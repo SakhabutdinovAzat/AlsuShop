@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add product</title>
+    <title>Add order</title>
 </head>
 <body>
 <form th:method="POST" th:action="@{/orders}" th:object="${order}">
@@ -14,12 +14,13 @@
     <input type="text" id="owner" th:field="*{owner}"/>
     <div style="color: red" th:if="${#fields.hasErrors('owner')}" th:errors="*{owner}">Owner error</div>
     <br/>
+
     <input type="submit" value="Add order"/>
 </form>
 
 <hr/>
 
-<a href="/order">back</a>
+<a href="/orders">back</a>
 
 </body>
 </html>
