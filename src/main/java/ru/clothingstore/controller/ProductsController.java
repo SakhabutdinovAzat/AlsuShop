@@ -5,10 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.clothingstore.model.Product;
-import ru.clothingstore.model.ProductType;
-import ru.clothingstore.service.ProductTypesService;
-import ru.clothingstore.service.ProductsService;
+import ru.clothingstore.model.product.Product;
+import ru.clothingstore.model.product.ProductType;
+import ru.clothingstore.service.Impl.ProductTypesService;
+import ru.clothingstore.service.Impl.ProductsService;
 
 import javax.validation.Valid;
 

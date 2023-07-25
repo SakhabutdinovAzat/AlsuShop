@@ -1,14 +1,18 @@
 package ru.clothingstore.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import ru.clothingstore.model.Person;
-import ru.clothingstore.service.RegistrationService;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.clothingstore.model.person.Person;
+import ru.clothingstore.service.Impl.RegistrationService;
 import ru.clothingstore.util.PersonValidator;
 
 import javax.validation.Valid;
@@ -40,19 +44,27 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public String performRegistration(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
+    public String performRegistration(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
             return "auth/registration";
         }
 
         registrationService.register(person);
+        redirectAttributes.addFlashAttribute("success", "You are registered! Please log in! Your login: " + person.getUsername());
         return "redirect:/auth/login";
     }
 
-/*    @GetMapping("/admin")
-    public String adminPage(){
-        adminService.duAdminPage();
-        return "admin";
-    }*/
+    @GetMapping("/403")
+    public String accessDenied(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            UserDetails userDetail = (UserDetails) auth.getPrincipal();
+            model.addAttribute("username", userDetail.getUsername());
+        }
+
+        return "error403";
+    }
+
+
 }

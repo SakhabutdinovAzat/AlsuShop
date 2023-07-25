@@ -4,16 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ru.clothingstore.model.Person;
-import ru.clothingstore.service.PeopleService;
+import ru.clothingstore.model.person.Person;
+import ru.clothingstore.service.PersonService;
 
 @Component
 public class PersonValidator implements Validator {
-    private final PeopleService peopleService;
+    private final PersonService personService;
 
     @Autowired
-    public PersonValidator(PeopleService peopleService) {
-        this.peopleService = peopleService;
+    public PersonValidator(PersonService personService) {
+        this.personService = personService;
     }
 
     @Override
@@ -30,11 +30,11 @@ public class PersonValidator implements Validator {
             errors.rejectValue("fullName", "", "This fullName id already taken");*/
 
         // посмотреть, если человек с таким email в БД
-        if (peopleService.findByEmail(person.getEmail()).isPresent()) {
+        if (personService.findByEmail(person.getEmail()).isPresent()) {
             errors.rejectValue("email", "", "This email is already taken");
         }
 
-        if(peopleService.findByUsername(person.getUsername()).isPresent()){
+        if(personService.findByUsername(person.getUsername()).isPresent()){
             errors.rejectValue("username", "", "Username is already exist");
         }
 

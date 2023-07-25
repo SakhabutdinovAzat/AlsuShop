@@ -2,7 +2,7 @@ package ru.alsushop.AlsuShop.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.clothingstore.model.Product;
+import ru.clothingstore.model.product.Product;
 
 import static org.junit.jupiter.api.Assertions.*;
 
