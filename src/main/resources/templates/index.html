@@ -1,10 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ClothingStore</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
+
+<!--Template Header-->
+<div th:include="/fragments/header :: header"></div>
+
+<div class="container mt-5">
+<!-- TODO при необходимости реализовать автоматический переход-->
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item"
+                 th:each="news,row:${listNews}"
+                 th:classappend="${row.index}==0?'active':''">
+                <a th:href="@{/news/detail/{id}(id=${news.id})}">
+                    <img class="d-block w-100" th:src="${news.newsImageLink}" alt="Card newsImageLink cap"/>
+                </a>
+<!--                d-block img-fluid       "d-block w-100-->
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Предыдущий</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Следующий</span>
+        </button>
+    </div>
+
+    <hr>
+    <h2 style="margin-top: 30px">NEW PRODUCTS</h2>
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-3 row-eq-height" th:each="good : ${newGoods}">
+            <div class="card text-center mb-3" style="width: 18rem;">
+                <a th:href="@{/good/detail/{id}(id=${good.id})}">
+                    <div class="card-img-top card-image-fixheight">
+<!--                        TODO  добавить заглушку-->
+                        <img th:src="${good.smallImageLink}" alt="Card smallImageLink cap"/>
+                    </div>
+                </a>
+                <div class="card-block">
+                    <a th:href="@{/good/detail/{id}(id=${good.id})}" style="text-decoration: none;">
+                        <h4 class="card-title" th:text="${good.title}"></h4>
+                    </a>
+                    <hr>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item price">
+                            PRICE&nbsp;<span th:text="${good.price}"></span>&nbsp;RUB
+                        </li>
+                    </ul>
+                    <hr>
+                    <!--                        TODO  добавить срез строки при размере описания больше 100-->
+<!--                    <p class="card-text" th:text="${#strings.substring(good.description, 0, 100).concat('...')}"></p>-->
+                    <p class="card-text" style="text-align: left" th:text="${good.description}"></p>
+                    <div class="card-footer">
+                        <a data-toggle="modal"
+                           data-target="#modalBuy"
+                           th:attr="data-id=${good.id}"
+                           th:href="@{/cart/buy}"
+                           class="buy btn btn-success"
+                        >
+                            <!--                        TODO  добавить картинку корзины-->
+<!--                            <i class="bi bi-cart-plus"></i>-->
+<!--                            <div class="material-icons md-14">shopping_cart</div>-->
+                            Add to cart!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h2 style="margin-top: 30px">СATALOG</h2>
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-3 row-eq-height" th:each="good : ${newGoods}">
+            <div class="card text-center mb-3" style="width: 18rem;">
+                <a th:href="@{/good/detail/{id}(id=${good.id})}">
+                    <div class="card-img-top card-image-fixheight">
+                        <!--    TODO  добавить заглушку-->
+                        <img th:src="${good.smallImageLink}" alt="Card smallImageLink cap"/>
+                    </div>
+                </a>
+                <div class="card-block">
+                    <a th:href="@{/good/detail/{id}(id=${good.id})}" style="text-decoration: none;">
+                        <h4 class="card-title" th:text="${good.title}"></h4>
+                    </a>
+                    <hr>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item price">
+                            PRICE&nbsp;<span th:text="${good.price}"></span>&nbsp;RUB
+                        </li>
+                    </ul>
+                    <hr>
+                    <!--    TODO  добавить срез строки при размере описания больше 100-->
+                    <!--<p class="card-text" th:text="${#strings.substring(good.description, 0, 100).concat('...')}"></p>-->
+                    <p class="card-text" style="text-align: left" th:text="${good.description}"></p>
+                    <div class="card-footer">
+                        <a data-toggle="modal"
+                           data-target="#modalBuy"
+                           th:attr="data-id=${good.id}"
+                           th:href="@{/cart/buy}"
+                           class="buy btn btn-success"
+                        >
+                            <!--       TODO  добавить картинку корзины-->
+                            <!--<div class="material-icons md-14">shopping_cart</div>-->
+                            Add to cart!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

@@ -8,6 +8,8 @@ import ru.clothingstore.model.product.Product;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +27,7 @@ public class Good {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotNull
     @Size(min = 1, max = 64)
     @Column(name = "title")
     private String title;
@@ -32,6 +35,7 @@ public class Good {
     @Column(name = "active", columnDefinition = "boolean default true")
     private Boolean active = true;
 
+    @NotNull
     @Size(min = 3)
     @Column(name = "description")
     private String description;
@@ -39,6 +43,7 @@ public class Good {
     @Column(name = "small_image_link")
     private String smallImageLink;
 
+    @Min(value = 0, message = "Age should be more than 0")
     @Column(name = "quantity")
     private int quantity;
 
@@ -46,6 +51,7 @@ public class Good {
     @Digits(integer = 9, fraction = 2)
     private Double price;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;

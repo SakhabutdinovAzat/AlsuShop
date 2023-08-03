@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>All users</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<!--Template Header-->
+<div th:include="/fragments/header :: header"></div>
+
+<div class="container mt-5">
+
+    <a class="btn btn-success" href="user/add"> Add User</a>
+
+    <table class="table table-striped" th:unless="${#lists.isEmpty(users)}">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Active</th>
+            <th>Email</th>
+            <th>Roles</th>
+
+            <th>Update User</th>
+            <th>Delete User</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}">Id</td>
+            <td th:text="${user.username}">Username</td>
+            <td th:text="${user.password}">Password</td>
+            <td th:text="${user.active}">Active</td>
+            <td th:text="${user.email}">Email</td>
+            <td th:text="${user.role}">Role</td>
+
+            <td>
+<!--                <a th:href="@{user/update/{id}(id=${user.getId()})}"><i class="material-icons md-18">autorenew</i> Update User</a>-->
+                <form th:method="GET" th:action="@{user/update/{id}(id=${user.getId()})}">
+                    <input type="submit" value="Edit user"/>
+                </form>
+            </td>
+            <td>
+<!--                <a th:href="@{user/delete/{id}(id=${user.getId()})}"><i class="material-icons md-18">delete</i> Delete User</a>-->
+                <form th:method="DELETE" th:action="@{user/delete/{id}(id=${user.getId()})}">
+                    <input type="submit" value="Delete user"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<!--Template footer-->
+<div th:include="/fragments/footer :: footer"></div>
+
+</body>
+</html>

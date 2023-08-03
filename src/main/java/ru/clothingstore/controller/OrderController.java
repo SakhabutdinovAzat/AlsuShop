@@ -7,7 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.clothingstore.model.order.Order;
 import ru.clothingstore.model.person.Person;
-import ru.clothingstore.service.Impl.OrderService;
+import ru.clothingstore.service.OrderService;
 import ru.clothingstore.service.PersonService;
 
 import javax.validation.Valid;
@@ -32,9 +32,9 @@ public class OrderController {
                         @RequestParam(value = "sort", defaultValue = "orderDate", required = false) String sort) {
 
         if (offset == 0 || limit == 0)
-            model.addAttribute("orders", orderService.findAll(sort));
+            model.addAttribute("orders", orderService.getAllOrders(sort));
         else
-            model.addAttribute("orders", orderService.findAll(offset, limit, sort));
+            model.addAttribute("orders", orderService.getAllOrders(offset, limit, sort));
 
         return "orders/index";
     }
@@ -42,7 +42,7 @@ public class OrderController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, @ModelAttribute("person") Person person,
                        Model model) {
-        model.addAttribute("order", orderService.findOne(id));
+        model.addAttribute("order", orderService.getOrderById(id));
 
         Person orderOwner = orderService.getOrderOwner(id);
 
@@ -71,7 +71,7 @@ public class OrderController {
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("order", orderService.findOne(id));
+        model.addAttribute("order", orderService.getOrderById(id));
 
         return "orders/edit";
     }
@@ -84,7 +84,7 @@ public class OrderController {
             return "orders/edit";
         }
 
-        orderService.update(id, order);
+        orderService.update(order);
 
         return "redirect:/orders";
     }

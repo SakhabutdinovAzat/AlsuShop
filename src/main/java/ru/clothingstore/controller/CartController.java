@@ -40,7 +40,7 @@ public class CartController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        Person person = personService.findByUsername(username);
+        Person person = personService.findByUsername(username).orElse(null);
         model.addAttribute("products", person.getCart().getProducts());
         model.addAttribute("cart", person.getCart());
 
@@ -52,7 +52,7 @@ public class CartController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        Person person = personService.findByUsername(username);
+        Person person = personService.findByUsername(username).orElse(null);
         Cart cart = person.getCart();
         Product product = cart.getProduct(id);
 
@@ -76,7 +76,7 @@ public class CartController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
 
-        Person person = personService.findByUsername(userName);
+        Person person = personService.findByUsername(userName).orElse(null);
         Cart cart = person.getCart();
         Product product = cart.getProduct(id);
 
@@ -105,7 +105,7 @@ public class CartController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
 
-        Person person = personService.findByUsername(userName);
+        Person person = personService.findByUsername(userName).orElse(null);
         Good good = goodService.getGoodById(Integer.valueOf(id), true);
 
         Cart cart = person.getCart();

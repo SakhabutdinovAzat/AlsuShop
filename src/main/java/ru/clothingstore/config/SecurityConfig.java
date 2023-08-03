@@ -29,12 +29,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/auth/login", "/auth/registration", "/error").permitAll()
                 /*.antMatchers("/admin/**").hasRole("ROLE_ADMIN")*/
-                /*.antMatchers("/auth/admin", "/people").hasRole("ADMIN")*/
-                .anyRequest().authenticated()//hasAnyRole("USER", "ADMIN")
+                /*.antMatchers("/auth/admin", "/people").hasRole("ROLE_ADMIN")*/
+//                .anyRequest().authenticated()//hasAnyRole("ROLE_USER", "ROLE_ADMIN")
+                .anyRequest().permitAll()
                 .and()
                 .formLogin().loginPage("/auth/login")
                 .loginProcessingUrl("/process_login")
-                .defaultSuccessUrl("/people", true)
+                .defaultSuccessUrl("/index", true)
                 .failureUrl("/auth/login?error")
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/auth/login");

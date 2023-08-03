@@ -11,5 +11,4 @@ import java.util.Optional;
 public interface NewsRepository extends JpaRepository<News, Integer> {
     Optional<News> findByDate(Date date);
 
-
 }

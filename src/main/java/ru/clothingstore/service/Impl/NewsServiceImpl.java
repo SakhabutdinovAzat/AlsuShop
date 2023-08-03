@@ -58,6 +58,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional
     public void addNews(News news) {
+        news.setDate(new Date());
         newsRepository.save(news);
         LOGGER.info("News has added successfully ", news);
     }
@@ -65,6 +66,9 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional
     public void updateNews(News news) {
+        News newsToBeUpdate = newsRepository.findById(news.getId()).get();
+        news.setDate((newsToBeUpdate.getDate()));
+        news.setNewsImageLink(news.getNewsImageLink());
         newsRepository.save(news);
         LOGGER.info("News has updated successfully ", news);
     }

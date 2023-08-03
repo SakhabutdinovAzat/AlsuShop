@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import ru.clothingstore.model.cart.Cart;
 import ru.clothingstore.model.person.Person;
 import ru.clothingstore.model.product.Product;
 
@@ -24,6 +25,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Cart cart;
+
     @Column(name = "order_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
@@ -31,6 +35,9 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
+
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
     @ManyToMany
     @JoinTable(name = "Sales",

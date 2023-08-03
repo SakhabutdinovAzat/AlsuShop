@@ -22,9 +22,9 @@ public class IndexController {
 
     @GetMapping()
     public String indexPage(Model model) {
-        model.addAttribute("newGoods", goodService.getLastAddedGoods(4, true));
+        model.addAttribute("newGoods", goodService.getAllGoods());
         model.addAttribute("catalogGoods", goodService.getGoods(8, true));
-        model.addAttribute("listNews", newsService.getLastAddedNews(3));
+        model.addAttribute("listNews", newsService.getAllNews());
 
         return "index";
     }

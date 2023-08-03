@@ -13,7 +13,7 @@ public interface PersonService {
 
     public void save(Person person);
 
-    public void update(int id, Person updatePerson);
+    public void update(Person updatePerson);
 
     public void delete(int id);
 
@@ -21,7 +21,7 @@ public interface PersonService {
 
     public Optional<Person> findByEmail(String email);
 
-    public Person findByUsername(String username);
+    public Optional<Person> findByUsername(String username);
 
     public List<Order> getOrdersById(int id);
 }

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>All goods</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+
+<!--Template Header-->
+<div th:include="/fragments/header :: header"></div>
+
+<div class="container mt-5">
+
+  <a class="btn btn-success" href="add">Add Good</a>
+
+  <table class="table" th:unless="${#lists.isEmpty(goods)}">
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>Icon</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Quantity</th>
+      <th>Active</th>
+      <th>Price</th>
+      <th>Category</th>
+
+      <th>Update Good</th>
+      <th>Delete Good</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="good : ${goods}">
+      <td th:text="${good.getId()}">Id</td>
+      <td><img th:src="${good.getSmallImageLink()}"/></td>
+      <td th:text="${good.getTitle()}">Title</td>
+      <td th:text="${good.getDescription()}">Description</td>
+      <td th:text="${good.getQuantity()}">Quantity</td>
+      <td th:text="${good.getActive()}">Active</td>
+      <td th:text="${good.getPrice()}">Price</td>
+      <td th:text="${good.getCategory().getTitle()}">Category</td>
+
+      <td><!--<a th:href="@{update/{id}(id=${good.getId()})}">Update Good</a>-->
+        <form th:method="GET" th:action="@{update/{id}(id=${good.getId()})}">
+          <input type="submit" value="Update good"/>
+        </form>
+      </td>
+
+      <td><!--<a th:href="@{delete/{id}(id=${good.getId()})}">Delete Good</a>-->
+        <form th:method="DELETE" th:action="@{delete/{id}(id=${good.getId()})}">
+          <input type="submit" value="Delete good"/>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<!--Template footer-->
+<div th:include="/fragments/footer :: footer"></div>
+
+</body>
+</html>

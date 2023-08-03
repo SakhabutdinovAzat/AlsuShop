@@ -51,7 +51,7 @@ public class Product {
     @Column(name = "count")
     private Integer count;
 
-// TODO
+    // TODO Убрать
     @ManyToMany(mappedBy = "products")
     private List<Order> orders;
 

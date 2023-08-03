@@ -9,11 +9,11 @@ import java.util.Collections;
 public class ClothingStoreApplication {
 
 	public static void main(String[] args) {
-/*		SpringApplication.run(ClothingStoreApplication.class, args);*/
-		SpringApplication app = new SpringApplication(ClothingStoreApplication.class);
+		SpringApplication.run(ClothingStoreApplication.class, args);
+/*		SpringApplication app = new SpringApplication(ClothingStoreApplication.class);
 		app.setDefaultProperties(Collections
 				.singletonMap("server.port", "8083"));
-		app.run(args);
+		app.run(args);*/
 
 	}
 }

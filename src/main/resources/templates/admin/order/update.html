@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Update Order</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<!--Template Header-->
+<div th:include="/fragments/header :: header"></div>
+
+<div class="container mt-5">
+
+  <div class="row">
+    <div class="col-md-6">
+
+      <form action="#" th:action="@{/admin/order/update}" th:object="${order}" method="post">
+
+        <input th:field="*{id}" type="hidden" name="id"/>
+        <input th:field="*{cart.id}" type="hidden" name="cart"/>
+        <input th:field="*{owner.id}" type="hidden" name="user"/>
+
+        <!--TODO Реализовать конвертацию из String в Date-->
+        <div class="form-group row">
+          <label class="form-control-label" for="DATE">DATE:</label>
+          <input th:field="*{orderDate}" class="form-control" id="DATE" type="text" name="date"/>
+          <div th:if="${#fields.hasErrors('orderDate')}" th:errors="*{orderDate}"
+               class="alert alert-danger bg-error">Date Error. Try another?
+          </div>
+        </div>
+
+        <div class="form-group row">
+
+          <!--ToDo реализовать вомзожность изменить текущий статус заказа-->
+
+          <!--<label class="form-control-label" for="STATUS">STATUS:</label>-->
+          <!--<select class="form-control" id="STATUS" name="status">-->
+          <!--<option th:each="status : ${T(ru.pelmegov.javashop.model.order.Status).values()}"-->
+          <!--th:value="${status}"-->
+          <!--th:text="${status}">-->
+          <!--</option>-->
+          <!--</select>-->
+        </div>
+
+        <input class="btn btn-primary" name="submit" type="submit" value="Update"/>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--Template footer-->
+<div th:include="/fragments/footer :: footer"></div>
+
+</body>
+</html>

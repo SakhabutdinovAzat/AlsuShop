@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.clothingstore.model.order.Order;
 import ru.clothingstore.model.person.Person;
 import ru.clothingstore.repository.OrderRepository;
+import ru.clothingstore.service.OrderService;
 
 import java.util.Date;
 import java.util.List;
@@ -15,60 +16,70 @@ import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
-public class OrderService {
+public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
 
-    public List<Order> findAll(String sort){
+    @Override
+    public List<Order> getAllOrders(String sort){
         return orderRepository.findAll(Sort.by(sort));
     }
 
-    public List<Order> findAll(int offset, int limit, String sort){
+    @Override
+    public List<Order> getAllOrders(int offset, int limit, String sort){
         return orderRepository.findAll(PageRequest.of(offset,limit, Sort.by(sort))).getContent();
     }
 
-    public Order findOne(int id){
+    @Override
+    public Order getOrderById(int id){
         Optional<Order> optionalOrder = orderRepository.findById(id);
         return optionalOrder.orElse(null);
     }
 
+    @Override
     @Transactional
     public void save(Order order) {
         orderRepository.save(order);
     }
 
+    @Override
     @Transactional
-    public void update(int id, Order updateOrder) {
-        Order orderToBeUpdated = orderRepository.findById(id).get();
+    public void update(Order updateOrder) {
+        int orderId = updateOrder.getId();
+        Order orderToBeUpdated = orderRepository.findById(orderId).get();
 
-        updateOrder.setId(id);
+        updateOrder.setId(orderId);
         updateOrder.setOwner(orderToBeUpdated.getOwner()); // чтобы не терялась связь при обновлении
-
+        updateOrder.setCart(orderToBeUpdated.getCart()); // чтобы не терялась связь при обновлении
         // TODO
 
         updateOrder.setProducts(orderToBeUpdated.getProducts());
         orderRepository.save(updateOrder);
     }
 
+    @Override
     @Transactional
     public void delete(int id) {
         orderRepository.deleteById(id);
     }
 
+    @Override
     public Person getOrderOwner(int id) {
         Order order = orderRepository.findById(id).orElse(null);
         return order.getOwner();
     }
 
+    @Override
     public List<Order> findByOwner(Person person) {
         return orderRepository.findByOwner(person);
     }
 
+    @Override
     @Transactional
     public void release(int id){
         orderRepository.findById(id).ifPresent(
@@ -79,6 +90,7 @@ public class OrderService {
                 });
     }
 
+    @Override
     @Transactional
     public void assign(int id, Person selectedPerson) {
         orderRepository.findById(id).ifPresent(

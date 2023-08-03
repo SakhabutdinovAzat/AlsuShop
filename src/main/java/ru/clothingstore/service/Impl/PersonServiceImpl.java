@@ -2,10 +2,13 @@ package ru.clothingstore.service.Impl;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.clothingstore.model.cart.Cart;
 import ru.clothingstore.model.order.Order;
 import ru.clothingstore.model.person.Person;
+import ru.clothingstore.model.person.Reputation;
 import ru.clothingstore.repository.PersonRepository;
 import ru.clothingstore.service.PersonService;
 
@@ -19,12 +22,15 @@ import java.util.Optional;
 public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public PersonServiceImpl(PersonRepository personRepository) {
+    public PersonServiceImpl(PersonRepository personRepository, PasswordEncoder passwordEncoder) {
         this.personRepository = personRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
+    @Override
     public List<Person> findAll(){
         return personRepository.findAll();
     }
@@ -35,40 +41,65 @@ public class PersonServiceImpl implements PersonService {
         return foundPerson.orElse(null);
     }
 
+    @Override
     @Transactional
     public void save(Person person) {
+        person.setReputation(Reputation.NORMAL);
+        person.setCreatedAt(new Date());
+        person.setCart(new Cart());
+        person.setActive(true);
+        person.setPassword(passwordEncoder.encode(person.getPassword()));
         personRepository.save(person);
     }
 
+    // TODO
+    @Override
     @Transactional
-    public void update(int id, Person updatePerson) {
-        Person personToBeUpdate = personRepository.findById(id).get();
-        updatePerson.setUsername(personToBeUpdate.getUsername());
-        updatePerson.setPassword(personToBeUpdate.getPassword());
-        updatePerson.setReputation(personToBeUpdate.getReputation());
-        updatePerson.setCreatedAt(personToBeUpdate.getCreatedAt());
-        updatePerson.setRole(personToBeUpdate.getRole());
-        updatePerson.setId(id);
-        personRepository.save(updatePerson);
+    public void update(Person updatePerson) {
+        Optional<Person> optionalPerson = personRepository.findById(updatePerson.getId());
+        if (optionalPerson.isPresent()) {
+            Person personToBeUpdate = optionalPerson.get();
+            personToBeUpdate.setUsername(updatePerson.getUsername());
+            personToBeUpdate.setPassword(updatePerson.getPassword());
+            personToBeUpdate.setActive(updatePerson.getActive());
+            personToBeUpdate.setEmail(updatePerson.getEmail());
+            personToBeUpdate.setRole(updatePerson.getRole());
+//        updatePerson.setUsername(personToBeUpdate.getUsername());
+//        updatePerson.setPassword(personToBeUpdate.getPassword());
+//            updatePerson.setReputation(personToBeUpdate.getReputation());
+//            updatePerson.setCreatedAt(personToBeUpdate.getCreatedAt());
+//            updatePerson.setCart(personToBeUpdate.getCart());
+//            updatePerson.setId(personToBeUpdate.getId());
+//            updatePerson.setReputation(personToBeUpdate.getReputation());
+//        updatePerson.setRole(personToBeUpdate.getRole());
+            System.out.println("before save");
+            personRepository.save(personToBeUpdate);
+            System.out.println("after save");
+        }
     }
 
+    @Override
     @Transactional
     public void delete(int id) {
         personRepository.deleteById(id);
     }
 
+    @Override
     public Optional<Person> findByLastnameAndFirstname(String lastName, String firstName) {
         return personRepository.findByLastNameAndFirstName(lastName, firstName);
     }
 
+    @Override
     public Optional<Person> findByEmail(String email) {
         return personRepository.findByEmail(email);
     }
 
-    public Person findByUsername(String username) {
-        return personRepository.findByUsername(username).orElse(null);
+    @Override
+    public Optional<Person> findByUsername(String username) {
+        return personRepository.findByUsername(username);
     }
 
+    @Override
     // TODO
     public List<Order> getOrdersById(int id) {
         Optional<Person> person = personRepository.findById(id);
