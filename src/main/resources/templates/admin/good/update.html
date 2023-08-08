@@ -4,6 +4,7 @@
   <title>Update Good</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link th:href="@{/css/style.css}" rel="stylesheet"/>
 </head>
 <body>
 
@@ -35,6 +36,11 @@
           <label class="form-control-label" for="QUANTITY">QUANTITY:</label>
           <input th:field="*{quantity}" class="form-control" id="QUANTITY" type="text" name="quantity"/>
           <div style="color:red" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">Quantity Error</div>
+        </div>
+        <div class="form-group row">
+          <label class="form-control-label" for="IMAGE">Image:</label>
+          <input th:field="*{smallImageLink}" class="form-control" id="IMAGE" type="text" name="smallImageLink"/>
+          <div style="color:red" th:if="${#fields.hasErrors('smallImageLink')}" th:errors="*{smallImageLink}">SmallImageLink Error</div>
         </div>
 
         <fieldset class="row">
@@ -79,8 +85,11 @@
 
 </div>
 
-<!--Template footer-->
-<div th:include="/fragments/footer :: footer"></div>
-
 </body>
+
+<footer>
+  <!--Template footer-->
+  <div th:include="/fragments/footer :: footer"></div>
+</footer>
+
 </html>

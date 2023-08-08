@@ -4,6 +4,7 @@
   <title>Update Order</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link th:href="@{/css/style.css}" rel="stylesheet"/>
 </head>
 <body>
 
@@ -50,8 +51,11 @@
   </div>
 </div>
 
-<!--Template footer-->
-<div th:include="/fragments/footer :: footer"></div>
-
 </body>
+
+<footer>
+  <!--Template footer-->
+  <div th:include="/fragments/footer :: footer"></div>
+</footer>
+
 </html>
