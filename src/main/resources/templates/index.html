@@ -72,9 +72,9 @@
                            th:href="@{/cart/buy}"
                            class="buy btn btn-success"
                         >
-                            <!--                        TODO  добавить картинку корзины-->
-                            <i class="bi bi-cart-plus"></i>
-                            Add to cart!</a>
+                              <i class="bi bi-cart-plus"></i>
+                              Add to cart!
+                        </a>
                     </div>
                 </div>
             </div>
@@ -97,7 +97,7 @@
                     </a>
                     <hr>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item price">
+                        <li class="list-group-item price" style="color: darkslateblue; font-weight: bold;">
                             PRICE&nbsp;<span th:text="${good.price}"></span>&nbsp;RUB
                         </li>
                     </ul>
@@ -112,9 +112,9 @@
                            th:href="@{/cart/buy}"
                            class="buy btn btn-success"
                         >
-                            <!--       TODO  добавить картинку корзины-->
-                            <i class="bi bi-cart-plus"></i>
-                            Add to cart!</a>
+                              <i class="bi bi-cart-plus"></i>
+                              Add to cart!
+                        </a>
                     </div>
                 </div>
             </div>
@@ -127,6 +127,6 @@
 </body>
 <footer>
     <!--Template footer-->
-    <div th:include="/fragments/footer :: footer"></div>
+    <div id="footer" th:include="/fragments/footer :: footer"></div>
 </footer>
 </html>

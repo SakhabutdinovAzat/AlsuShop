@@ -23,25 +23,29 @@
         <div class="form-group row">
           <label class="form-control-label" for="TITLE">TITLE:</label>
           <input th:field="*{title}" class="form-control" id="TITLE" type="text" name="title"/>
-          <div style="color:red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</div>
+          <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
+               class="alert alert-danger bg-error">Title Error</div>
         </div>
 
         <div class="form-group row">
           <label class="form-control-label" for="DESCRIPTION">DESCRIPTION:</label>
           <input th:field="*{description}" class="form-control" id="DESCRIPTION" type="text" name="description"/>
-          <div style="color:red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</div>
+          <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+               class="alert alert-danger bg-error">Description Error</div>
         </div>
 
         <div class="form-group row">
           <label class="form-control-label" for="Quantity">Quantity:</label>
           <input th:field="*{quantity}" class="form-control" id="Quantity" type="text" name="quantity"/>
-          <div style="color:red" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">Quantity Error</div>
+          <div th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"
+               class="alert alert-danger bg-error">Quantity Error</div>
         </div>
 
         <div class="form-group row">
           <label class="form-control-label" for="IMAGE">Image:</label>
           <input th:field="*{smallImageLink}" class="form-control" id="IMAGE" type="text" name="smallImageLink"/>
-          <div style="color:red" th:if="${#fields.hasErrors('smallImageLink')}" th:errors="*{smallImageLink}">SmallImageLink Error</div>
+          <div th:if="${#fields.hasErrors('smallImageLink')}" th:errors="*{smallImageLink}"
+               class="alert alert-danger bg-error">SmallImageLink Error</div>
         </div>
 
         <fieldset class="row">
@@ -89,7 +93,7 @@
 
 <footer>
   <!--Template footer-->
-  <div th:include="/fragments/footer :: footer"></div>
+  <div id="footer" th:include="/fragments/footer :: footer"></div>
 </footer>
 
 </html>

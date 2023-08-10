@@ -1,6 +1,7 @@
 ### My ignore ###
 src/main/resources/application.properties
 src/main/resources/DB_SQL
+README.MD
 
 HELP.md
 target/

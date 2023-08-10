@@ -1,117 +1,82 @@
 package ru.clothingstore.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import ru.clothingstore.model.cart.Cart;
 import ru.clothingstore.model.order.Order;
+import ru.clothingstore.model.order.Status;
 import ru.clothingstore.model.person.Person;
+import ru.clothingstore.service.CartService;
 import ru.clothingstore.service.OrderService;
 import ru.clothingstore.service.PersonService;
 
-import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 @Controller
-@RequestMapping("/orders")
+@RequestMapping("/order")
 public class OrderController {
 
-    private final OrderService orderService;
     private final PersonService personService;
+    private final OrderService orderService;
+    private final CartService cartService;
+    //TODO mail service реализовать
 
-    @Autowired
-    public OrderController(OrderService orderService, PersonService personService) {
-        this.orderService = orderService;
+    public OrderController(PersonService personService, OrderService orderService, CartService cartService) {
         this.personService = personService;
+        this.orderService = orderService;
+        this.cartService = cartService;
     }
 
     @GetMapping()
-    public String index(Model model,
-                        @RequestParam(value = "offset", defaultValue = "0", required = false) Integer offset,
-                        @RequestParam(value = "limit", defaultValue = "5", required = false) Integer limit,
-                        @RequestParam(value = "sort", defaultValue = "orderDate", required = false) String sort) {
+    public String getOrders(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Person person = personService.findByUsername(username).get();
 
-        if (offset == 0 || limit == 0)
-            model.addAttribute("orders", orderService.getAllOrders(sort));
-        else
-            model.addAttribute("orders", orderService.getAllOrders(offset, limit, sort));
-
-        return "orders/index";
+        List<Order> orders = new ArrayList<>(person.getOrders());
+        orders.sort(Comparator.comparing(Order::getId).reversed());
+        model.addAttribute("orders", orders);
+        return "order/index";
     }
 
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, @ModelAttribute("person") Person person,
-                       Model model) {
-        model.addAttribute("order", orderService.getOrderById(id));
+    @GetMapping("/create")
+    public String createOrder(Model model) {
 
-        Person orderOwner = orderService.getOrderOwner(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Person person = personService.findByUsername(username).get();
 
-        if (orderOwner != null)
-            model.addAttribute("owner", orderOwner);
-        else
-            model.addAttribute("people", personService.findAll());
-
-        return "orders/show";
-    }
-
-    @GetMapping("/new")
-    public String newOrder(Model model) {
-        model.addAttribute("order", new Order());
-        return "orders/new";
-    }
-
-    @PostMapping()
-    public String create(@ModelAttribute("order") @Valid Order order, BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            return "orders/new";
-
-        orderService.save(order);
-        return "redirect:/orders";
-    }
-
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("order", orderService.getOrderById(id));
-
-        return "orders/edit";
-    }
-
-
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("order") @Valid Order order, BindingResult bindingResult,
-                         @PathVariable("id") int id) {
-        if (bindingResult.hasErrors()) {
-            return "orders/edit";
+        if (person.getCart().getProducts().isEmpty()) {
+            return "order/index";
         }
 
-        orderService.update(order);
+        Cart oldCart = person.getCart();
+        person.setCart(new Cart());
 
-        return "redirect:/orders";
-    }
+        Order order = new Order();
+        order.setCart(oldCart);
+        order.setOwner(person);
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id) {
-        orderService.delete(id);
+        order.setStatus(Status.Оформлен);
+        person.addOrder(order);
 
-        return "redirect:/orders";
-    }
+        cartService.updateCart(oldCart);
+        orderService.save(order);
+        personService.update(person);
 
-    @PatchMapping("/{id}/release")
-    public String release(@PathVariable("id") int id) {
-        orderService.release(id);
 
-        return "redirect:/orders/" + id;
-    }
+        // TODO реализовать send email for user
+//        mailService.sendEmail(order);
 
-    @PatchMapping("/{id}/assign")
-    public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person selectedPerson) {
-        orderService.assign(id, selectedPerson);
-
-        return "redirect:/orders/" + id;
-    }
-
-    @GetMapping("/search")
-    public String searchPage() {
-        return "orders/search";
+        List<Order> orders = new ArrayList<>(person.getOrders());
+        orders.sort(Comparator.comparing(Order::getId).reversed());
+        model.addAttribute("orders", orders);
+        return "order/index";
     }
 }

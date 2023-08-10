@@ -44,7 +44,7 @@ public class CartController {
         model.addAttribute("products", person.getCart().getProducts());
         model.addAttribute("cart", person.getCart());
 
-        return "cart/show";
+        return "cart/index";
     }
 
     @GetMapping("/delete/{id}")
