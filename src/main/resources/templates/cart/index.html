@@ -26,15 +26,15 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <a th:href="@{/good/detail/{id}(id=${product.good.id})}">
-                                    <img style="max-height: 100px !important;" th:src="${product.good.smallImageLink}"
+                                    <img style="max-height: 100px !important;" th:src="@{${'/img/' + product.good.smallImageLink}}"
                                          alt="#"/>
                                 </a>
                             </div>
-                            <div class="col-md-6">
-                                <div class="card-text"
-                                     th:text="${#strings.substring(product.good.description, 0, 100).concat('...')}">
-                                </div>
-                            </div>
+<!--                            <div class="col-md-6">-->
+<!--                                <div class="card-text"-->
+<!--                                     th:text="${#strings.substring(product.good.description, 0, 100).concat('...')}">-->
+<!--                                </div>-->
+<!--                            </div>-->
                             <div class="col-md-3">
 
                                 <a style="position: absolute; right: 0; top:-40px;"

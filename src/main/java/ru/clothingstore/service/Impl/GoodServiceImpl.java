@@ -10,6 +10,7 @@ import ru.clothingstore.repository.GoodRepository;
 import ru.clothingstore.service.GoodService;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -120,5 +121,10 @@ public class GoodServiceImpl implements GoodService {
     @Override
     public Set<Good> getGoodsByCategory(int count, int categoryId, boolean active) {
         return null;
+    }
+
+    @Override
+    public List<Good> searchByTitle(String title) {
+        return goodRepository.findByTitleStartingWith(title);
     }
 }

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>JavaShop</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<!--Template Header-->
+<div th:include="/fragments/header :: header"></div>
+
+<div class="container mt-5">
+
+    <h2>CATALOG</h2>
+    <div class="row" style="margin-top: 20px">
+        <div class="col-sm-3 row-eq-height" th:each="good : ${catalogGoods}">
+            <div class="card text-center mb-3" style="width: 18rem;">
+                <a th:href="@{/good/detail/{id}(id=${good.id})}">
+                    <div class="card-img-top card-image-fixheight">
+                        <!--        TODO  добавить заглушку-->
+                        <img th:src="@{${'/img/' + good.smallImageLink}}" alt="Card smallImageLink cap"/>
+                    </div>
+                </a>
+                <div class="card-block">
+                    <a th:href="@{/good/detail/{id}(id=${good.id})}" style="text-decoration: none;">
+                        <h4 class="card-title" th:text="${good.title}"></h4>
+                    </a>
+                    <hr>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item price" style="color: darkslateblue; font-weight: bold;">
+                            PRICE&nbsp;<span th:text="${good.price}"></span>&nbsp;RUB
+                        </li>
+                    </ul>
+                    <hr>
+<!--                        TODO  добавить срез строки при размере описания больше 100-->
+<!--                    <p class="card-text" th:text="${#strings.substring(good.description, 0, 100).concat('...')}"></p>-->
+                    <p class="card-text" style="text-align: left" th:text="${good.description}"></p>
+                    <div class="card-footer">
+                        <a data-toggle="modal"
+                           data-target="#modalBuy"
+                           th:attr="data-id=${good.id}"
+                           th:href="@{/cart/buy}"
+                           class="buy btn btn-success"
+                        >
+                            <i class="bi bi-cart-plus"></i>
+                            Add to cart!
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+
+<footer>
+    <!--Template footer-->
+    <div id="footer" th:include="/fragments/footer :: footer"></div>
+</footer>
+
+</html>

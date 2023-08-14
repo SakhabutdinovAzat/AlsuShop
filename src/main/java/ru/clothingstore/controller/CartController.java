@@ -102,6 +102,7 @@ public class CartController {
     @RequestMapping(value = {"/buy"})
     public String buyGood(@RequestBody String id) {
 
+        System.out.println("Enter buy");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
 
@@ -112,18 +113,22 @@ public class CartController {
         addItemInCart(good, cart);
         cartService.updateCart(cart);
 
+        System.out.println("Before return buy");
         return getJson("<b>" + good.getTitle() + "</b> been successfully added in your cart!");
     }
 
     // Метод для преобразования Java объекта в JavaScript объект или строку
     private String getJson(Object object) {
+        System.out.println("Enter getJson");
         ObjectMapper mapper = new ObjectMapper();
         String result = null;
         try {
             result = mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
+            System.out.println("In catch getJson");
             e.printStackTrace();
         }
+        System.out.println("Before return getJson");
         return result;
     }
 

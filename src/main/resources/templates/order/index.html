@@ -36,7 +36,7 @@
                                             <div class="col-md-3">
                                                 <a th:href="@{/good/detail/{id}(id=${product.good.id})}">
                                                     <img style="max-height: 100px !important;"
-                                                         th:src="${product.good.smallImageLink}"
+                                                         th:src="@{${'/img/' + product.good.smallImageLink}}"
                                                          alt="#"/>
                                                 </a>
                                             </div>

@@ -3,10 +3,12 @@ package ru.clothingstore.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import ru.clothingstore.model.good.Good;
 import ru.clothingstore.service.GoodService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/good")
@@ -33,8 +35,18 @@ public class GoodController {
         Integer goodsCount = 12;
 
         model.addAttribute("category", categoryId);
-        model.addAttribute("catalogGoods", goodService.getGoodsByCategory(categoryId, true));
+        model.addAttribute("catalogGoods", new ArrayList<>(goodService.getGoodsByCategory(categoryId, true)));
 
-        return "good/cateregory";
+        return "good/category";
+    }
+
+    @PostMapping("/search")
+    public String search(@RequestParam("title") String title, Model model){
+        List<Good> goods = goodService.searchByTitle(title);
+        if (goods.isEmpty())
+            return "redirect:/index";
+        model.addAttribute("goods", goods);
+
+        return "good/search";
     }
 }

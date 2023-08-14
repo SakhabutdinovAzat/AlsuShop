@@ -34,7 +34,7 @@
     <tbody>
     <tr th:each="good : ${goods}">
       <td th:text="${good.getId()}">Id</td>
-      <td><img th:src="${good.getSmallImageLink()}"/></td>
+      <td><img th:src="@{${'/img/' + good.smallImageLink}}"/></td>
       <td th:text="${good.getTitle()}">Title</td>
       <td th:text="${good.getDescription()}">Description</td>
       <td th:text="${good.getQuantity()}">Quantity</td>

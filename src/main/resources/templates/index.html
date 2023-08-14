@@ -13,7 +13,6 @@
 <div th:include="/fragments/header :: header"></div>
 
 <div class="container mt-5">
-<!-- TODO при необходимости реализовать автоматический переход-->
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -48,7 +47,7 @@
                 <a th:href="@{/good/detail/{id}(id=${good.id})}">
                     <div class="card-img-top card-image-fixheight">
 <!--                        TODO  добавить заглушку-->
-                        <img th:src="${good.smallImageLink}" alt="Card smallImageLink cap"/>
+                        <img th:src="@{${'/img/' + good.smallImageLink}}" alt="Card smallImageLink cap"/>
                     </div>
                 </a>
                 <div class="card-block">
@@ -88,7 +87,7 @@
                 <a th:href="@{/good/detail/{id}(id=${good.id})}">
                     <div class="card-img-top card-image-fixheight">
                         <!--    TODO  добавить заглушку-->
-                        <img th:src="${good.smallImageLink}" alt="Card smallImageLink cap"/>
+                        <img th:src="@{${'/img/' + good.smallImageLink}}" alt="Card smallImageLink cap"/>
                     </div>
                 </a>
                 <div class="card-block">

@@ -27,18 +27,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // конфигорация самого spring security
         // конфигурация авторизации
         http.authorizeRequests()
-                .antMatchers("/auth/login", "/auth/registration", "/error").permitAll()
-                /*.antMatchers("/admin/**").hasRole("ROLE_ADMIN")*/
-                /*.antMatchers("/auth/admin", "/people").hasRole("ROLE_ADMIN")*/
-//                .anyRequest().authenticated()//hasAnyRole("ROLE_USER", "ROLE_ADMIN")
-                .anyRequest().permitAll()
+                    .antMatchers("/auth/login", "/auth/registration", "/error").permitAll()
+//                    .antMatchers("/admin/**").hasRole("ROLE_ADMIN")
+//                    .antMatchers("/cart/**", "/order/**").authenticated()
+//                    .anyRequest().authenticated()//hasAnyRole("ROLE_USER", "ROLE_ADMIN")
+                    .anyRequest().permitAll()
                 .and()
-                .formLogin().loginPage("/auth/login")
-                .loginProcessingUrl("/process_login")
-                .defaultSuccessUrl("/index", true)
-                .failureUrl("/auth/login?error")
+                    .formLogin().loginPage("/auth/login")
+                    .loginProcessingUrl("/process_login")
+                    .defaultSuccessUrl("/index", true)
+                    .failureUrl("/auth/login?error")
                 .and()
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/auth/login");
+                    .logout().logoutUrl("/logout").logoutSuccessUrl("/auth/login");
     }
 
     // настраивает аунтентификацию

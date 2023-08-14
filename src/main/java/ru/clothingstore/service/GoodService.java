@@ -2,6 +2,7 @@ package ru.clothingstore.service;
 
 import ru.clothingstore.model.good.Good;
 
+import java.util.List;
 import java.util.Set;
 
 public interface GoodService {
@@ -33,6 +34,8 @@ public interface GoodService {
     public Set<Good> getGoodsByCategory(int count, int categoryId);
 
     public Set<Good> getGoodsByCategory(int count, int categoryId, boolean active);
+
+    public List<Good> searchByTitle(String title);
 
     void addGood(Good good);
 
