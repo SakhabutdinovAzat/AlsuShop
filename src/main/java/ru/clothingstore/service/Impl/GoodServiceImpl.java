@@ -10,6 +10,7 @@ import ru.clothingstore.repository.GoodRepository;
 import ru.clothingstore.service.GoodService;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -98,7 +99,8 @@ public class GoodServiceImpl implements GoodService {
 
     @Override
     public Set<Good> getGoods(int count, boolean active) {
-        return null;
+        Set<Good> goods = new LinkedHashSet<>(goodRepository.findByActiveOrderByIdDesc(active).subList(0,count));
+        return goods;
     }
 
     // TODO

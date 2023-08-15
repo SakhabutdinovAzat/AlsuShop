@@ -31,13 +31,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/admin/good/index">Goods</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/admin/news">News</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="/admin/user" role="button" data-bs-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" style="color: white" href="/admin/user" role="button" data-bs-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
                             Goods catalog
                         </a>
@@ -50,7 +47,7 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-                        <a class="nav-link dropdown-toggle" href="/admin/user" role="button" data-bs-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" style="color: white" href="/admin/user" role="button" data-bs-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
                             Admin
                         </a>
@@ -62,24 +59,14 @@
                             <li><a class="dropdown-item" href="/admin/news">News</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown" th:if="${#authorization.expression('isAuthenticated()')}">
-                        <a class="nav-link dropdown-toggle" href="/user/info" role="button" data-bs-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">
-                            My profile
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/card">Card</a></li>
-                            <li><a class="dropdown-item" href="/order">Orders</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Something else</a></li>
-                        </ul>
-                    </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                        <a class="nav-link active" aria-current="page" href="/about">About</a>
                     </li>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>-->
+<!--                    </li>-->
                 </ul>
 
-<!--                TODO реализовать поиск-->
                 <form class="d-flex" role="search" th:method="POST" th:action="@{/good/search}" >
                     <input class="form-control me-2" name="title" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
@@ -95,7 +82,7 @@
                         <li><a class="dropdown-item" href="/card">Card</a></li>
                         <li><a class="dropdown-item" href="/order">Orders</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else</a></li>
+                        <li><a class="dropdown-item" href="#">Something</a></li>
                     </ul>
                 </div>
                 </div>

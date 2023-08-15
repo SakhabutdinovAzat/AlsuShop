@@ -82,7 +82,8 @@
     <hr>
     <h2 style="margin-top: 30px">СATALOG</h2>
     <div class="row" style="margin-top: 20px">
-        <div class="col-sm-3 row-eq-height" th:each="good : ${newGoods}">
+<!--        TODO  обновить каталог-->
+        <div class="col-sm-3 row-eq-height" th:each="good : ${catalogGoods}">
             <div class="card text-center mb-3" style="width: 18rem;">
                 <a th:href="@{/good/detail/{id}(id=${good.id})}">
                     <div class="card-img-top card-image-fixheight">

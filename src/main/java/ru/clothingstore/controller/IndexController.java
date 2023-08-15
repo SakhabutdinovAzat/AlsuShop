@@ -22,8 +22,8 @@ public class IndexController {
 
     @GetMapping()
     public String indexPage(Model model) {
-        model.addAttribute("newGoods", goodService.getAllGoods());
-        model.addAttribute("catalogGoods", goodService.getGoods(8, true));
+        model.addAttribute("newGoods", goodService.getGoods(4, true));
+        model.addAttribute("catalogGoods", goodService.getAllGoods());
         model.addAttribute("listNews", newsService.getAllNews());
 
         return "index";

@@ -24,4 +24,6 @@ public interface GoodRepository extends JpaRepository<Good, Integer> {
     List<Good> findTop4ByActive(boolean active);
 
     List<Good> findByTitleStartingWith(String title);
+
+    List<Good> findByActiveOrderByIdDesc(boolean active);
 }
