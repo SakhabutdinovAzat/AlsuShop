@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.clothingstore.model.person.Person;
 import ru.clothingstore.service.Impl.RegistrationService;
+import ru.clothingstore.service.PersonService;
 import ru.clothingstore.util.PersonValidator;
 
 import javax.validation.Valid;
@@ -23,12 +24,15 @@ public class AuthController {
     private final RegistrationService registrationService;
     private final PersonValidator personValidator;
 
+    private final PersonService personService;
+
 
     @Autowired
-    public AuthController(RegistrationService registrationService, PersonValidator personValidator) {
+    public AuthController(RegistrationService registrationService, PersonValidator personValidator, PersonService personService) {
         this.registrationService = registrationService;
         this.personValidator = personValidator;
 
+        this.personService = personService;
     }
 
 
@@ -45,6 +49,7 @@ public class AuthController {
     @PostMapping("/registration")
     public String performRegistration(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         personValidator.validate(person, bindingResult);
+
         if (bindingResult.hasErrors()) {
             return "auth/registration";
         }
@@ -54,8 +59,21 @@ public class AuthController {
         return "redirect:/auth/login";
     }
 
+    @GetMapping("/activate/{code}")
+    public String activate(Model model, @PathVariable String code) {
+        boolean isActivated = personService.activateUser(code);
+
+        if (isActivated) {
+            model.addAttribute("message", "User successfully activated");
+        } else {
+            model.addAttribute("message", "Activation code is not found");
+        }
+        return "auth/login";
+    }
+
+    // TODO
     @GetMapping("/403")
-    public String accessDenied(Model model){
+    public String accessDenied(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             UserDetails userDetail = (UserDetails) auth.getPrincipal();

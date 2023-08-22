@@ -9,7 +9,7 @@ import ru.clothingstore.service.GoodService;
 import ru.clothingstore.service.NewsService;
 
 @Controller
-@RequestMapping("/index")
+@RequestMapping("/")
 public class IndexController {
     private final GoodService goodService;
     private final NewsService newsService;
@@ -20,12 +20,17 @@ public class IndexController {
         this.newsService = newsService;
     }
 
-    @GetMapping()
+    @GetMapping(value = {"/", "/index"})
     public String indexPage(Model model) {
         model.addAttribute("newGoods", goodService.getGoods(4, true));
         model.addAttribute("catalogGoods", goodService.getAllGoods());
         model.addAttribute("listNews", newsService.getAllNews());
 
         return "index";
+    }
+
+    @GetMapping("/about")
+    public String aboutPage() {
+        return "about";
     }
 }

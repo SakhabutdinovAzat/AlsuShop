@@ -25,9 +25,10 @@ public class PersonValidator implements Validator {
     public void validate(Object o, Errors errors) {
         Person person = (Person) o;
 
-/*        // посмотреть, если человек с таким ФИО в БД
-        if(peopleService.findByLastnameAndFirstname(person.getFirstName()).isPresent())
-            errors.rejectValue("fullName", "", "This fullName id already taken");*/
+        // сравнить введеные пароли
+        if (person.getPassword() != null && !person.getPassword().equals(person.getPassword2())) {
+            errors.rejectValue("password2", "", "Passwords is different");
+        }
 
         // посмотреть, если человек с таким email в БД
         if (personService.findByEmail(person.getEmail()).isPresent()) {
@@ -37,6 +38,12 @@ public class PersonValidator implements Validator {
         if(personService.findByUsername(person.getUsername()).isPresent()){
             errors.rejectValue("username", "", "Username is already exist");
         }
+
+        // TODO реализовать
+
+        /*  // посмотреть, если человек с таким ФИО в БД
+        if(peopleService.findByLastnameAndFirstname(person.getFirstName()).isPresent())
+            errors.rejectValue("fullName", "", "This fullName id already taken");*/
 
 /*        // Неверный формат даты
         if(person.getDateOfBirth())  {

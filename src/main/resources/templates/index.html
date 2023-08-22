@@ -24,7 +24,7 @@
                  th:each="news,row:${listNews}"
                  th:classappend="${row.index}==0?'active':''">
                 <a th:href="@{/news/detail/{id}(id=${news.id})}">
-                    <img class="d-block w-100" th:src="${news.newsImageLink}" alt="Card newsImageLink cap"/>
+                    <img class="d-block w-100" th:src="@{${'/img/' + news.newsImageLink}}" alt="Card newsImageLink cap"/>
                 </a>
 <!--                d-block img-fluid       "d-block w-100-->
             </div>

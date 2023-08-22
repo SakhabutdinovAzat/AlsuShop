@@ -30,7 +30,7 @@
 
                 <div class="form-group row">
                     <label class="form-control-label" for="PASSWORD">PASSWORD:</label>
-                    <input th:field="*{password}" class="form-control" id="PASSWORD" type="text" name="password"/>
+                    <input th:field="*{password}" class="form-control" id="PASSWORD" type="password" name="password"/>
                     <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
                          class="alert alert-danger bg-error">Password Error. Try another?
                     </div>
@@ -81,10 +81,4 @@
 
 
 </body>
-
-<footer>
-    <!--Template footer-->
-    <div id="footer" th:include="/fragments/footer :: footer"></div>
-</footer>
-
 </html>

@@ -1,5 +1,5 @@
 package ru.clothingstore.service;
 
 public interface MailService {
-    public void sendEmail(final Object object);
+    void sendEmail(String emailTo, String subject, String message);
 }

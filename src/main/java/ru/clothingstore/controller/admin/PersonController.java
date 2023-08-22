@@ -1,6 +1,7 @@
 package ru.clothingstore.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,7 +17,7 @@ import ru.clothingstore.util.PersonValidator;
 import javax.validation.Valid;
 import java.util.*;
 
-@Controller
+@Controller(value = "adminUserController")
 @RequestMapping("/admin/user")
 public class PersonController {
 
@@ -24,14 +25,16 @@ public class PersonController {
     private final PersonValidator personValidator;
     private final OrderService orderService;
     private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
-    public PersonController(PersonService personService, PersonValidator personValidator, OrderService orderService, RoleService roleService) {
+    public PersonController(PersonService personService, PersonValidator personValidator, OrderService orderService, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.personService = personService;
         this.personValidator = personValidator;
         this.orderService = orderService;
         this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping()
@@ -46,15 +49,6 @@ public class PersonController {
     }
 
     // TODO
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id,
-                       Model model) {
-        model.addAttribute("user", personService.findOne(id));
-        model.addAttribute("orders", personService.getOrdersById(id));
-        return "admin/user/show";
-    }
-
-    // TODO
     @GetMapping("/add")
     public String add (Model model) {
         getUserModel(model, new Person());
@@ -62,20 +56,21 @@ public class PersonController {
     }
 
     @PostMapping("/add")
-    public String add (@ModelAttribute("user") @Valid Person user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs) {
+    public String add (@ModelAttribute("user") @Valid Person person, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs) {
 
-        personValidator.validate(user, bindingResult);
+        personValidator.validate(person, bindingResult);
 
         if (bindingResult.hasErrors())
             return "admin/user/add";
 
-        user.setCart(new Cart());
+        person.setCart(new Cart());
         //if admin don't select role
-        if (user.getRole() == null) {
-            user.setRole(roleService.getRoleByName("ROLE_USER"));
+        if (person.getRole() == null) {
+            person.setRole(roleService.getRoleByName("ROLE_USER"));
         }
-        personService.save(user);
-        redirectAttrs.addFlashAttribute("success", "User added: " + user);
+        person.setPassword(passwordEncoder.encode(person.getPassword()));
+        personService.save(person);
+        redirectAttrs.addFlashAttribute("success", "User added: " + person);
         return "redirect:/admin/user";
     }
 
@@ -104,11 +99,11 @@ public class PersonController {
 
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable("id") int id, RedirectAttributes redirectAttrs) {
-        Person user = personService.findOne(id);
+        Person person = personService.findOne(id);
         System.out.println("before");
         personService.delete(id);
         System.out.println("after");
-        redirectAttrs.addFlashAttribute("success", "Delete user: " + user);
+        redirectAttrs.addFlashAttribute("success", "Delete user: " + person);
         return "redirect:/admin/user";
     }
 

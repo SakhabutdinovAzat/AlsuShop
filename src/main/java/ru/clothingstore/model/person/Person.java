@@ -18,7 +18,8 @@ import java.util.List;
 @Data
 @Table(name = "Person")
 @EqualsAndHashCode(exclude = {"id", "role", "cart", "orders"})
-@ToString(exclude = "orders")
+//@ToString(exclude = "orders")
+@ToString(exclude = "id")
 @NoArgsConstructor
 public class Person {
 
@@ -27,9 +28,9 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    //@NotEmpty(message = "Username should not be empty")
-    @Size(min = 2, max = 30, message = "Username should be between 2 and 30")
     @Column(name = "username")
+    @NotEmpty(message = "Username should not be empty")
+    @Size(min = 2, max = 30, message = "Username should be between 2 and 30")
     private String username;
 
     @Column(name = "email")
@@ -37,12 +38,19 @@ public class Person {
     @Email(message = "Invalid email")
     private String email;
 
+    @Column(name = "activation_code")
+    private String activationCode;
+
     @Column(name = "active", columnDefinition = "boolean default true")
     private Boolean active = true;
 
-    //@NotEmpty(message = "Password should not be empty")
+    @NotEmpty(message = "Password should not be empty")
     @Column(name = "password")
     private String password;
+
+    @Transient
+    @Column(name = "password")
+    private String password2;
 
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
@@ -96,4 +104,6 @@ public class Person {
         this.orders.add(order);
         order.setOwner(this);
     }
+
+
 }

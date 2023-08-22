@@ -41,7 +41,7 @@
             <td>
 <!--                <a th:href="@{user/update/{id}(id=${user.getId()})}"><i class="material-icons md-18">autorenew</i> Update User</a>-->
                 <form th:method="GET" th:action="@{user/update/{id}(id=${user.getId()})}">
-                    <input type="submit" value="Edit user"/>
+                    <input type="submit" value="Update user"/>
                 </form>
             </td>
             <td>
@@ -57,10 +57,4 @@
 </div>
 
 </body>
-
-<footer>
-    <!--Template footer-->
-    <div id="footer" th:include="/fragments/footer :: footer"></div>
-</footer>
-
 </html>
