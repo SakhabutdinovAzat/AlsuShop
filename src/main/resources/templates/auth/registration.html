@@ -45,7 +45,14 @@
                            th:field="*{email}" id="email" required/>
                     <div class="invalid-feedback" th:errors="*{email}">Email Error</div>
                 </div>
+                <div class="col-md-4">
+                    <div class="g-recaptcha" data-sitekey="6LfFIcgnAAAAALngLiUjdStUJnjhi2O8Xx7mPzST"></div>
+                    <div class="alert alert-danger" th:if="${captchaError}" role="alert">
+                        <b th:text="${captchaError}"></b>
+                    </div>
+                </div>
                 <br/>
+
                 <div class="form-group row">
                     <!--TODO-->
                     <input class="btn btn-lg btn-primary btn-block" type="submit" value="Registration">

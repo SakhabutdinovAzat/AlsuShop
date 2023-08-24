@@ -38,7 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .defaultSuccessUrl("/index", true)
                     .failureUrl("/auth/login?error")
                 .and()
-                    .logout().logoutUrl("/logout").logoutSuccessUrl("/auth/login");
+                    .logout().logoutUrl("/logout").logoutSuccessUrl("/auth/login")
+                .and()
+                    .rememberMe();
     }
 
     // настраивает аунтентификацию

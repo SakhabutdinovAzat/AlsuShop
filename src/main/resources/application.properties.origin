@@ -23,6 +23,11 @@ spring.mail.port=
 spring.mail.protocol=smtps
 mail.debug=true
 
+recaptcha.secret=
+
+spring.session.jdbc.initialize-schema=always
+spring.session.jdbc.table-name=
+
 spring.mvc.hiddenmethod.filter.enabled=true
 server.port=
 
