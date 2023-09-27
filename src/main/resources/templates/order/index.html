@@ -41,9 +41,10 @@
                                                 </a>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="card-text"
-                                                     th:text="${#strings.substring(product.good.description, 0, 100).concat('...')}">
-                                                </div>
+<!--                                                TODO Вернуть при увеличении длины описания-->
+<!--                                                <div class="card-text"-->
+<!--                                                     th:text="${#strings.substring(product.good.description, 0, 100).concat('...')}">-->
+<!--                                                </div>-->
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="card-text">
@@ -76,6 +77,5 @@
 <!--Template footer-->
 <div th:include="/fragments/footer :: footer"></div>
 
-</div>
 </body>
 </html>

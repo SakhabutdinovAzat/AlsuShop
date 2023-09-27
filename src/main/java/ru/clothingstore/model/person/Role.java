@@ -12,8 +12,8 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "role")
-@ToString(exclude="people")
-@EqualsAndHashCode(exclude={"id", "people"})
+@ToString(exclude="users")
+@EqualsAndHashCode(exclude={"id", "users"})
 @NoArgsConstructor
 public class Role {
 
@@ -27,6 +27,6 @@ public class Role {
     private String name;
 
     @OneToMany(mappedBy = "role")
-    private List<Person> people;
+    private List<User> users;
 
 }

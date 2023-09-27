@@ -37,10 +37,6 @@ public class Product {
     private int price;
 
     @ManyToOne
-    @JoinColumn(name = "type_id", referencedColumnName = "id")
-    private ProductType productType;
-
-    @ManyToOne
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
     private Cart cart;
 
@@ -50,10 +46,6 @@ public class Product {
 
     @Column(name = "count")
     private Integer count;
-
-    // TODO Убрать
-    @ManyToMany(mappedBy = "products")
-    private List<Order> orders;
 
     @Column(name = "added_at")
     @Temporal(TemporalType.TIMESTAMP)

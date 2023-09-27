@@ -8,10 +8,7 @@ import ru.clothingstore.model.news.News;
 import ru.clothingstore.repository.NewsRepository;
 import ru.clothingstore.service.NewsService;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -66,9 +63,15 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional
     public void updateNews(News news) {
-        News newsToBeUpdate = newsRepository.findById(news.getId()).get();
-        news.setDate((newsToBeUpdate.getDate()));
-        news.setNewsImageLink(news.getNewsImageLink());
+        News newsToBeUpdate = newsRepository.findById(news.getId()).orElse(null);
+
+        if (newsToBeUpdate == null){
+            LOGGER.info("News has not updated ", news);
+        }
+
+        news.setDate(newsToBeUpdate.getDate());
+        // Todo При добавлении возможности обновить картинку, убрать
+        news.setNewsImageLink(newsToBeUpdate.getNewsImageLink());
         newsRepository.save(news);
         LOGGER.info("News has updated successfully ", news);
     }

@@ -102,19 +102,16 @@
                         </li>
                     </ul>
                     <hr>
-                    <!--    TODO  добавить срез строки при размере описания больше 100-->
+                    <!--  TODO Включить при обновлении бд-->
                     <!--<p class="card-text" th:text="${#strings.substring(good.description, 0, 100).concat('...')}"></p>-->
                     <p class="card-text" style="text-align: left" th:text="${good.description}"></p>
                     <div class="card-footer">
-                        <a data-toggle="modal"
-                           data-target="#modalBuy"
-                           th:attr="data-id=${good.id}"
-                           th:href="@{/cart/buy}"
-                           class="buy btn btn-success"
-                        >
-                              <i class="bi bi-cart-plus"></i>
-                              Add to cart!
-                        </a>
+                        <form th:method="POST" th:action="@{/cart/buy/{id}(id=${good.id})}">
+                            <button type="submit" class="buy btn btn-success" data-bs-toggle="modal" data-bs-target="#modalBuy">
+                                <i class="bi bi-cart-plus"></i>
+                                Add to cart!+
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -122,7 +119,8 @@
     </div>
 </div>
 
-
+<!--Template footer-->
+<div id="modal" th:include="/fragments/modal :: modal"></div>
 
 </body>
 <footer>

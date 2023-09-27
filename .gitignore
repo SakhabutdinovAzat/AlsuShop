@@ -2,8 +2,16 @@
 src/main/resources/application.properties
 src/main/resources/DB_SQL
 src/main/java/ru/clothingstore/config/MvcConfig.java
+
 src/main/resources/db.migration/V2.2__Add_category.sql
+src/main/resources/db.migration/Notes
 src/main/resources/static/css/main.css
+scripts
+
+### Tests ###
+src/main/resources/templates/test.html
+src/main/resources/static/js/test.js
+src/main/java/ru/clothingstore/controller/TestController.java
 
 HELP.md
 target/

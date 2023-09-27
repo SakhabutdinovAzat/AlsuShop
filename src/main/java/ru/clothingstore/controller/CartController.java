@@ -10,12 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.clothingstore.model.cart.Cart;
 import ru.clothingstore.model.good.Good;
-import ru.clothingstore.model.person.Person;
+import ru.clothingstore.model.person.User;
 import ru.clothingstore.model.product.Product;
 import ru.clothingstore.service.CartService;
 import ru.clothingstore.service.GoodService;
-import ru.clothingstore.service.PersonService;
+import ru.clothingstore.service.UserService;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -24,13 +25,13 @@ import java.util.Set;
 @RequestMapping("/cart")
 public class CartController {
 
-    private final PersonService personService;
+    private final UserService userService;
     private final GoodService goodService;
     private final CartService cartService;
 
     @Autowired
-    public CartController(PersonService personService, GoodService goodService, CartService cartService) {
-        this.personService = personService;
+    public CartController(UserService userService, GoodService goodService, CartService cartService) {
+        this.userService = userService;
         this.goodService = goodService;
         this.cartService = cartService;
     }
@@ -40,9 +41,9 @@ public class CartController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        Person person = personService.findByUsername(username).orElse(null);
-        model.addAttribute("products", person.getCart().getProducts());
-        model.addAttribute("cart", person.getCart());
+        User user = userService.getByUsername(username).orElse(null);
+        model.addAttribute("products", user.getCart().getProducts());
+        model.addAttribute("cart", user.getCart());
 
         return "cart/index";
     }
@@ -52,32 +53,33 @@ public class CartController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        Person person = personService.findByUsername(username).orElse(null);
-        Cart cart = person.getCart();
+        User user = userService.getByUsername(username).orElse(null);
+
+        Cart cart = user.getCart();
         Product product = cart.getProduct(id);
 
         Double productSum = product.getGood().getPrice() * product.getCount();
         cart.setSum(cart.getSum() - productSum);
 
 
-        if (cart.getProducts().remove(product))
-            cartService.updateCart(cart);
-
+        if (cart.getProducts().remove(product)){
+            cartService.updateCart(cart);}
         return "redirect:/cart";
     }
 
+    // TODO реализовать
     @ResponseBody
     @RequestMapping(value = {"/calculate"})
     public String cartCalculate(@RequestBody Map<String, String> json) {
 
-        Integer id = Integer.valueOf(json.get("id"));
-        Boolean isPlus = Boolean.valueOf(json.get("isPlus"));
+        int id = Integer.valueOf(json.get("id"));
+        boolean isPlus = Boolean.valueOf(json.get("isPlus"));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
 
-        Person person = personService.findByUsername(userName).orElse(null);
-        Cart cart = person.getCart();
+        User user = userService.getByUsername(userName).orElse(null);
+        Cart cart = user.getCart();
         Product product = cart.getProduct(id);
 
         if (isPlus) {
@@ -98,37 +100,44 @@ public class CartController {
         return getJson(objects);
     }
 
-    @ResponseBody
-    @RequestMapping(value = {"/buy"})
-    public String buyGood(@RequestBody String id) {
+    @PostMapping(value = {"/buy/{id}"})
+    public String buyGood(@PathVariable("id") int id) {
 
-        System.out.println("Enter buy");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
+        String username = authentication.getName();
 
-        Person person = personService.findByUsername(userName).orElse(null);
-        Good good = goodService.getGoodById(Integer.valueOf(id), true);
+        User user = userService.getByUsername(username).orElse(null);
+        Good good = goodService.getGoodById(id, true);
 
-        Cart cart = person.getCart();
+        Cart cart = user.getCart();
+
         addItemInCart(good, cart);
         cartService.updateCart(cart);
 
-        System.out.println("Before return buy");
-        return getJson("<b>" + good.getTitle() + "</b> been successfully added in your cart!");
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String userName = authentication.getName();
+//
+//        User user = personService.findByUsername(userName).orElse(null);
+//        Good good = goodService.getGoodById(Integer.valueOf(id), true);
+//
+//        Cart cart = user.getCart();
+//        addItemInCart(good, cart);
+//        cartService.updateCart(cart);
+
+        // Todo релизовать или убрать
+//        return getJson("<b>" + good.getTitle() + "</b> been successfully added in your cart!");
+        return "redirect:/index";
     }
 
     // Метод для преобразования Java объекта в JavaScript объект или строку
     private String getJson(Object object) {
-        System.out.println("Enter getJson");
         ObjectMapper mapper = new ObjectMapper();
         String result = null;
         try {
             result = mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
-            System.out.println("In catch getJson");
             e.printStackTrace();
         }
-        System.out.println("Before return getJson");
         return result;
     }
 
@@ -148,6 +157,10 @@ public class CartController {
             newProduct.setGood(good);
             newProduct.setCart(cart);
             newProduct.setCount(1);
+            newProduct.setAddedAt(new Date());
+            // TODO поменять price у product на double
+            newProduct.setPrice((int) Math.round(good.getPrice()));
+            newProduct.setName(good.getTitle());
             cart.setSum(cart.getSum() + good.getPrice());
             cart.addProduct(newProduct);
         }

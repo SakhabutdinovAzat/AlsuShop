@@ -6,9 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.clothingstore.model.order.Order;
-import ru.clothingstore.model.person.Person;
+import ru.clothingstore.model.person.User;
 import ru.clothingstore.service.OrderService;
-import ru.clothingstore.service.PersonService;
+import ru.clothingstore.service.UserService;
 
 import javax.validation.Valid;
 
@@ -17,12 +17,12 @@ import javax.validation.Valid;
 public class OrderControllerOld {
 
     private final OrderService orderService;
-    private final PersonService personService;
+    private final UserService userService;
 
     @Autowired
-    public OrderControllerOld(OrderService orderService, PersonService personService) {
+    public OrderControllerOld(OrderService orderService, UserService userService) {
         this.orderService = orderService;
-        this.personService = personService;
+        this.userService = userService;
     }
 
     @GetMapping()
@@ -40,16 +40,16 @@ public class OrderControllerOld {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, @ModelAttribute("person") Person person,
+    public String show(@PathVariable("id") int id, @ModelAttribute("person") User user,
                        Model model) {
         model.addAttribute("order", orderService.getOrderById(id));
 
-        Person orderOwner = orderService.getOrderOwner(id);
+        User orderOwner = orderService.getOrderOwner(id);
 
         if (orderOwner != null)
             model.addAttribute("owner", orderOwner);
         else
-            model.addAttribute("people", personService.findAll());
+            model.addAttribute("people", userService.getAll());
 
         return "orders/show";
     }
@@ -104,7 +104,7 @@ public class OrderControllerOld {
     }
 
     @PatchMapping("/{id}/assign")
-    public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person selectedPerson) {
+    public String assign(@PathVariable("id") int id, @ModelAttribute("person") User selectedPerson) {
         orderService.assign(id, selectedPerson);
 
         return "redirect:/orders/" + id;

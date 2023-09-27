@@ -18,16 +18,17 @@ import java.util.List;
 @Data
 @Table(name = "Person")
 @EqualsAndHashCode(exclude = {"id", "role", "cart", "orders"})
-//@ToString(exclude = "orders")
-@ToString(exclude = "id")
+@ToString(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-public class Person {
+public class User {
 
+    @ToString.Include
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @ToString.Include
     @Column(name = "username")
     @NotEmpty(message = "Username should not be empty")
     @Size(min = 2, max = 30, message = "Username should be between 2 and 30")
@@ -86,11 +87,11 @@ public class Person {
             org.hibernate.annotations.CascadeType.REFRESH})
     private List<Order> orders;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = false)
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
     private Cart cart;
 
-    public Person(String username, String password, String email) {
+    public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;

@@ -3,32 +3,32 @@ package ru.clothingstore.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.clothingstore.model.person.Person;
+import ru.clothingstore.model.person.User;
 
 import java.util.Collection;
 import java.util.Collections;
 
-public class PersonDetails implements UserDetails {
+public class UserDetailsImpl implements UserDetails {
 
-    private final Person person;
+    private final User user;
 
-    public PersonDetails(Person person) {
-        this.person = person;
+    public UserDetailsImpl(User user) {
+        this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(person.getRole().getName()));
+        return Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getName()));
     }
 
     @Override
     public String getPassword() {
-        return person.getPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return person.getUsername();
+        return user.getUsername();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class PersonDetails implements UserDetails {
     }
 
     // нужен чтобы получать данные аутентифицированного пользователя
-    public Person getPerson() {
-        return this.person;
+    public User getPerson() {
+        return this.user;
     }
 }

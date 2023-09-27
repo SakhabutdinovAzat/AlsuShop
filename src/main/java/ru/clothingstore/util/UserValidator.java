@@ -4,49 +4,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ru.clothingstore.model.person.Person;
-import ru.clothingstore.service.PersonService;
+import ru.clothingstore.model.person.User;
+import ru.clothingstore.service.UserService;
 
 @Component
-public class PersonValidator implements Validator {
-    private final PersonService personService;
+public class UserValidator implements Validator {
+    private final UserService userService;
 
     @Autowired
-    public PersonValidator(PersonService personService) {
-        this.personService = personService;
+    public UserValidator(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return Person.class.equals(aClass);
+        return User.class.equals(aClass);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
-        Person person = (Person) o;
+        User user = (User) o;
 
         // сравнить введеные пароли
-        if (person.getPassword() != null && !person.getPassword().equals(person.getPassword2())) {
+        if (user.getPassword() != null && !user.getPassword().equals(user.getPassword2())) {
             errors.rejectValue("password2", "", "Passwords is different");
         }
 
         // посмотреть, если человек с таким email в БД
-        if (personService.findByEmail(person.getEmail()).isPresent()) {
+        if (userService.getByEmail(user.getEmail()).isPresent()) {
             errors.rejectValue("email", "", "This email is already taken");
         }
 
-        if(personService.findByUsername(person.getUsername()).isPresent()){
+        if(userService.getByUsername(user.getUsername()).isPresent()){
             errors.rejectValue("username", "", "Username is already exist");
         }
 
         // TODO реализовать
 
         /*  // посмотреть, если человек с таким ФИО в БД
-        if(peopleService.findByLastnameAndFirstname(person.getFirstName()).isPresent())
+        if(userService.findByLastnameAndFirstname(user.getFirstName()).isPresent())
             errors.rejectValue("fullName", "", "This fullName id already taken");*/
 
 /*        // Неверный формат даты
-        if(person.getDateOfBirth())  {
+        if(user.getDateOfBirth())  {
             errors.rejectValue("dateOfBirth", "", "Date of birth invalid");
         }*/
     }

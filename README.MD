@@ -4,6 +4,7 @@
 * Hibernate6
 * База данных (PostgreSql)
 * Thymeleaf5
+* JS (native, jquery)
 * Junit5
 * Bootstrap5
 

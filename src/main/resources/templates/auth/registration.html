@@ -17,7 +17,7 @@
         <!--TODO-->
         <div class="col-md-4 offset-md-4">
             <h1>Registration</h1>
-            <form th:method="POST" th:action="@{/auth/registration}" th:object="${person}">
+            <form th:method="POST" th:action="@{/auth/registration}" th:object="${user}">
                 <div class="form-group row">
                     <label for="username" class="form-label">Введите имя пользователя:</label>
                     <input th:class="${#fields.hasErrors('username')}? 'form-control is-invalid' : 'form-control'"

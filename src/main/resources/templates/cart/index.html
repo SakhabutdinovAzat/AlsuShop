@@ -17,63 +17,63 @@
         <div class="row" style="margin-top: 20px">
 
             <div class="col-sm-12 row-eq-height" th:each="product : ${products}">
-
-                <div class="card" style="margin-bottom: 10px">
-                    <div class="card-block" style="padding-bottom: 10px; padding-top: 10px;">
-                        <a th:href="@{/good/detail/{id}(id=${product.good.id})}">
-                            <h3 th:text="${product.good.title}" class="card-title"></h3>
-                        </a>
-                        <div class="row">
-                            <div class="col-md-3">
+                <div class="card mb-6" style="margin-bottom: 10px">
+                    <div class="row g-0" style="padding: 10px 20px;">
+                        <div class="col-md-3">
+                            <a th:href="@{/good/detail/{id}(id=${product.good.id})}">
+                                <img th:src="@{${'/img/' + product.good.smallImageLink}}" style="max-height: 300px !important;"  alt="...">
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
                                 <a th:href="@{/good/detail/{id}(id=${product.good.id})}">
-                                    <img style="max-height: 100px !important;" th:src="@{${'/img/' + product.good.smallImageLink}}"
-                                         alt="#"/>
+                                    <h5 th:text="${product.good.title}" class="card-title"></h5>
                                 </a>
-                            </div>
-<!--                            <div class="col-md-6">-->
-<!--                                <div class="card-text"-->
+<!--                                TODO Включить при обновлении бд-->
+<!--                                <p class="card-text"-->
 <!--                                     th:text="${#strings.substring(product.good.description, 0, 100).concat('...')}">-->
-<!--                                </div>-->
-<!--                            </div>-->
-                            <div class="col-md-3">
-
-                                <a style="position: absolute; right: 0; top:-40px;"
-                                   class="btn btn-default" th:href="@{/cart/delete/{id}(id=${product.id})}"><i
-                                        class="material-icons md-18">delete_forever</i></a>
-
-                                <div class="card-text">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item price">
-                                            Price:&nbsp;<span th:text="${product.good.price}">Price</span>&nbsp;RUB
-                                        </li>
-                                        <li class="list-group-item price">
-                                            <div class="row">
-                                                <button th:attr="data-id=${product.id}"
-                                                        class="btn btn-default good-calc good-calc-up"><i
-                                                        class="material-icons">keyboard_arrow_up</i></button>
-                                                <span class="good-count" style="margin: 0 5px"
-                                                      th:text="${product.count}"></span>
-                                                <button th:attr="data-id=${product.id}"
-                                                        class="btn btn-default good-calc"><i
-                                                        class="material-icons md-18">keyboard_arrow_down</i></button>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
+<!--                                </p>-->
+                                <p th:text="${product.good.description}" class="card-text">Description</p>
+                                <p class="card-text" style="position: absolute; bottom: 25px;"><small class="text-body-secondary">Последнее обновление 3 мин. назад</small></p>
                             </div>
+                        </div>
+                        <div class="col-md-2">
+                            <a style="position: absolute; right: 0;"
+                               class="btn btn-default" th:href="@{/cart/delete/{id}(id=${product.id})}">
+                                <i class="material-icons md-18">delete_forever</i>
+                            </a>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item price">
+                                    Price:&nbsp;<span th:text="${product.good.price}">Price</span>&nbsp;RUB
+                                </li>
+<!--                                TODO реализовать до конца-->
+                                <li class="list-group-item price">
+                                    <div class="row">
+                                        <button th:attr="data-id=${product.id}"
+                                                class="btn btn-default good-calc good-calc-up"><i
+                                                class="material-icons">keyboard_arrow_up</i></button>
+                                        <span class="good-count" style="margin: 10px 5px"
+                                              th:text="${product.count}"></span>
+                                        <button th:attr="data-id=${product.id}"
+                                                class="btn btn-default good-calc"><i
+                                                class="material-icons md-18">keyboard_arrow_down</i></button>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4">
+        <div class="row" style="margin-bottom: 10px">
+            <div class="col-md-4" style="position: relative; left: 1000px;">
                 <h3>
                     SUM <span th:text="${cart.sum}"></span> RUB
                 </h3>
+                <a style="margin-top: 10px" class="btn btn-success" th:href="@{/order/create}">Buy all...</a>
             </div>
         </div>
-        <a style="margin-top: 20px" class="btn btn-success" th:href="@{/order/create}">Buy all...</a>
+
     </div>
 
     <div th:if="${#lists.isEmpty(products)}">

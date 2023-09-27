@@ -3,6 +3,7 @@ package ru.clothingstore.model.news;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 @Data
 @Table(name = "News")
 @EqualsAndHashCode(exclude={"id"})
+@ToString(exclude = "newsImageLink")
 @NoArgsConstructor
 public class News {
 

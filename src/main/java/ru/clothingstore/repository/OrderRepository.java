@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.clothingstore.model.order.Order;
-import ru.clothingstore.model.person.Person;
+import ru.clothingstore.model.person.User;
 
 import java.util.List;
 
@@ -13,5 +13,5 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     Page<Order> findAll(Pageable pageable);
 
-    List<Order> findByOwner(Person owner);
+    List<Order> findByOwner(User owner);
 }

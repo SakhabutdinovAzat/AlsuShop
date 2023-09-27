@@ -114,6 +114,11 @@ public class GoodServiceImpl implements GoodService {
         return new HashSet<>(goodRepository.findTop4ByActive(active));
     }
 
+    @Override
+    public List<Good> searchByTitle(String title) {
+        return goodRepository.findByTitleStartingWith(title);
+    }
+
     // TODO
     @Override
     public Set<Good> getGoodsByCategory(int count, int categoryId) {
@@ -123,10 +128,5 @@ public class GoodServiceImpl implements GoodService {
     @Override
     public Set<Good> getGoodsByCategory(int count, int categoryId, boolean active) {
         return null;
-    }
-
-    @Override
-    public List<Good> searchByTitle(String title) {
-        return goodRepository.findByTitleStartingWith(title);
     }
 }

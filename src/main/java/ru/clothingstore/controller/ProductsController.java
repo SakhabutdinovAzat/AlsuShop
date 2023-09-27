@@ -6,8 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.clothingstore.model.product.Product;
-import ru.clothingstore.model.product.ProductType;
-import ru.clothingstore.service.Impl.ProductTypesService;
 import ru.clothingstore.service.Impl.ProductsService;
 
 import javax.validation.Valid;
@@ -16,12 +14,10 @@ import javax.validation.Valid;
 @RequestMapping("/products")
 public class ProductsController {
     private final ProductsService productsService;
-    private final ProductTypesService productTypesService;
 
     @Autowired
-    public ProductsController(ProductsService productsService, ProductTypesService productTypesService) {
+    public ProductsController(ProductsService productsService) {
         this.productsService = productsService;
-        this.productTypesService = productTypesService;
     }
 
     //                        @RequestParam(value = "offset", defaultValue = "0") @Min(0) int offset,
@@ -42,30 +38,6 @@ public class ProductsController {
         return "products/index";
     }
 
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, @ModelAttribute("productType") ProductType productType,
-                       Model model) {
-        model.addAttribute("product", productsService.findOne(id));
-
-/*       TODO*/
-
-/*        Order productOrder = productsService.getProductOrders(id);
-
-        if (productOrder != null)
-            model.addAttribute("owner", productOwner);
-        else
-            model.addAttribute("people", peopleService.findAll());*/
-
-        return "products/show";
-    }
-
-    @GetMapping("/new")
-    public String newProduct(Model model) {
-        model.addAttribute("product", new Product());
-        model.addAttribute("productTypes", productTypesService.findAll());
-
-        return "products/new";
-    }
 
     @PostMapping()
     public String create(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult) {
@@ -79,26 +51,6 @@ public class ProductsController {
         return "redirect:/products";
     }
 
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("product", productsService.findOne(id));
-        model.addAttribute("productTypes", productTypesService.findAll());
-
-        return "products/edit";
-    }
-
-
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult,
-                         @PathVariable("id") int id) {
-        if (bindingResult.hasErrors()) {
-            return "products/edit";
-        }
-
-        productsService.update(id, product);
-
-        return "redirect:/products";
-    }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {

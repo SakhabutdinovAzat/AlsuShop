@@ -10,7 +10,6 @@ import ru.clothingstore.service.MailService;
 @Service
 public class MailServiceImpl implements MailService {
 
-    // TODO  Реализовать
     private final JavaMailSender mailSender;
 
     @Value("${spring.mail.username}")

@@ -6,7 +6,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.clothingstore.model.product.Product;
-import ru.clothingstore.model.product.ProductType;
 import ru.clothingstore.repository.ProductsRepository;
 
 import java.util.Date;
@@ -52,23 +51,13 @@ public class ProductsService {
 
         updateProduct.setId(id);
         updateProduct.setAddedAt(productToBeUpdated.getAddedAt());
-        // updateProduct.setProductType(productToBeUpdated.getProductType()); // чтобы не терялась связь при обновлении
 
-        // TODO
-
-        updateProduct.setOrders(productToBeUpdated.getOrders());
         productsRepository.save(updateProduct);
     }
 
     @Transactional
     public void delete(int id) {
         productsRepository.deleteById(id);
-    }
-
-    public ProductType getProductType(int id) {
-        Product product = productsRepository.findById(id).orElse(null);
-
-        return product.getProductType();
     }
 
 /*    @Transactional
@@ -88,18 +77,18 @@ public class ProductsService {
     }
 
     @Transactional
-    public void assign(int id, Person selectedPerson) {
+    public void assign(int id, User selectedUser) {
         productsRepository.findById(id).ifPresent(
                 // TODO
                 item -> {
-                    item.setOwner(selectedPerson);
+                    item.setOwner(selectedUser);
                     item.setTakenAt(new Date());
                 });
     }*/
 
     // TODO
-/*    public List<Product> findByOrder(Person person) {
-        return productsRepository.findByOwner(person);
+/*    public List<Product> findByOrder(User user) {
+        return productsRepository.findByOwner(user);
     }
 
     public List<Product> findByName(String name) {

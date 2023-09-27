@@ -6,26 +6,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.clothingstore.model.person.Person;
-import ru.clothingstore.service.PersonService;
+import ru.clothingstore.model.person.User;
+import ru.clothingstore.service.UserService;
 
 import java.security.Principal;
 
 @Controller
 @RequestMapping("/user")
-public class PersonController {
+public class UserController {
 
-    private final PersonService personService;
+    private final UserService userService;
 
-    public PersonController(PersonService personService) {
-        this.personService = personService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/profile")
     public String getProfile(Model model, Principal principal) {
-        Person person = personService.findByUsername(principal.getName()).orElse(null);
-        model.addAttribute("username", person.getUsername());
-        model.addAttribute("email", person.getEmail());
+        User user = userService.getByUsername(principal.getName()).orElse(null);
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("email", user.getEmail());
 
         return "user/profile";
     }
@@ -34,7 +34,7 @@ public class PersonController {
     public String updateProfile(Principal principal,
                                 @RequestParam String password,
                                 @RequestParam String email) {
-        personService.updateProfile(principal, password, email);
+        userService.updateProfile(principal, password, email);
 
         return "redirect:/user/profile";
     }

@@ -2,7 +2,6 @@ package ru.clothingstore.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.clothingstore.model.dto.CaptchaResponseDto;
-import ru.clothingstore.model.person.Person;
-import ru.clothingstore.service.Impl.RegistrationService;
-import ru.clothingstore.service.PersonService;
-import ru.clothingstore.util.PersonValidator;
+import ru.clothingstore.model.person.User;
+import ru.clothingstore.service.RegistrationService;
+import ru.clothingstore.service.UserService;
+import ru.clothingstore.util.UserValidator;
 
 import javax.validation.Valid;
 import java.util.Collections;
@@ -28,18 +27,18 @@ public class AuthController {
 
     private final static String CAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s";
     private final RegistrationService registrationService;
-    private final PersonValidator personValidator;
-    private final PersonService personService;
+    private final UserValidator userValidator;
+    private final UserService userService;
     private final RestTemplate restTemplate;
 
     @Value("${recaptcha.secret}")
     private String secret;
 
     @Autowired
-    public AuthController(RegistrationService registrationService, PersonValidator personValidator, PersonService personService, RestTemplate restTemplate) {
+    public AuthController(RegistrationService registrationService, UserValidator userValidator, UserService userService, RestTemplate restTemplate) {
         this.registrationService = registrationService;
-        this.personValidator = personValidator;
-        this.personService = personService;
+        this.userValidator = userValidator;
+        this.userService = userService;
         this.restTemplate = restTemplate;
     }
 
@@ -50,13 +49,13 @@ public class AuthController {
     }
 
     @GetMapping("/registration")
-    public String registrationPage(@ModelAttribute("person") Person person) {
+    public String registrationPage(@ModelAttribute("user") User user) {
         return "auth/registration";
     }
 
     @PostMapping("/registration")
     public String performRegistration(@RequestParam("g-recaptcha-response") String captchaResponse,
-                                      @ModelAttribute("person") @Valid Person person,
+                                      @ModelAttribute("user") @Valid User user,
                                       BindingResult bindingResult,
                                       Model model,
                                       RedirectAttributes redirectAttributes) {
@@ -68,20 +67,20 @@ public class AuthController {
             return "auth/registration";
         }
 
-        personValidator.validate(person, bindingResult);
+        userValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "auth/registration";
         }
 
-        registrationService.register(person);
-        redirectAttributes.addFlashAttribute("success", "You are registered! Please log in! Your login: " + person.getUsername());
+        registrationService.register(user);
+        redirectAttributes.addFlashAttribute("success", "You are registered! Please log in! Your login: " + user.getUsername());
         return "redirect:/auth/login";
     }
 
     @GetMapping("/activate/{code}")
     public String activate(Model model, @PathVariable String code) {
-        boolean isActivated = personService.activateUser(code);
+        boolean isActivated = userService.activateUser(code);
 
         if (isActivated) {
             model.addAttribute("messageType", "alert alert-success");
