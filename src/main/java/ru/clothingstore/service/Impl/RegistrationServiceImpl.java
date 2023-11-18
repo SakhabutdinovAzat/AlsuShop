@@ -1,17 +1,18 @@
 package ru.clothingstore.service.Impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.clothingstore.model.cart.Cart;
-import ru.clothingstore.model.person.Reputation;
-import ru.clothingstore.model.person.User;
+import ru.clothingstore.model.user.Reputation;
+import ru.clothingstore.model.user.User;
 import ru.clothingstore.repository.UserRepository;
 import ru.clothingstore.service.MailService;
 import ru.clothingstore.service.RegistrationService;
 import ru.clothingstore.service.RoleService;
-import ru.clothingstore.service.UserService;
 
 import java.util.Date;
 import java.util.UUID;
@@ -21,9 +22,10 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final UserRepository userRepository;
     private final RoleService roleService;
 
-    // Todo если не работает поменять на MailServiceImpl
     private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationService.class);
 
     @Autowired
     public RegistrationServiceImpl(UserRepository userRepository, RoleService roleService, MailServiceImpl mailService, PasswordEncoder passwordEncoder) {
@@ -44,6 +46,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setActivationCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        LOGGER.info("User {} was registered successfully", user.getUsername());
 
         if (!user.getEmail().isEmpty()) {
             String message = String.format(

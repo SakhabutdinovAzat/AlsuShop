@@ -1,0 +1,1 @@
+create database store_app_db;

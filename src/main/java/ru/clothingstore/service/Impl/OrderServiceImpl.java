@@ -1,5 +1,7 @@
 package ru.clothingstore.service.Impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -8,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.clothingstore.model.cart.Cart;
 import ru.clothingstore.model.order.Order;
 import ru.clothingstore.model.order.Status;
-import ru.clothingstore.model.person.User;
+import ru.clothingstore.model.user.User;
 import ru.clothingstore.model.product.Product;
 import ru.clothingstore.repository.OrderRepository;
 import ru.clothingstore.repository.UserRepository;
@@ -26,6 +28,8 @@ public class OrderServiceImpl implements OrderService {
     private final CartService cartService;
     private final OrderRepository orderRepository;
     private final MailService mailService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderService.class);
 
     @Autowired
     public OrderServiceImpl(UserRepository userRepository, CartService cartService, OrderRepository orderRepository, MailService mailService) {
@@ -51,11 +55,12 @@ public class OrderServiceImpl implements OrderService {
         return optionalOrder.orElse(null);
     }
 
-    @Override
-    @Transactional
-    public void save(Order order) {
-        orderRepository.save(order);
-    }
+//    @Override
+//    @Transactional
+//    public void save(Order order) {
+//        orderRepository.save(order);
+//        LOGGER.info("Order was saved successfully: " + order);
+//    }
 
     @Override
     @Transactional
@@ -81,6 +86,7 @@ public class OrderServiceImpl implements OrderService {
 
         List<Order> orders = new ArrayList<>(user.getOrders());
         orders.sort(Comparator.comparing(Order::getId).reversed());
+        LOGGER.info("Order was created successfully: " + order);
     }
 
     @Override
@@ -94,12 +100,14 @@ public class OrderServiceImpl implements OrderService {
         updateOrder.setCart(orderToBeUpdated.getCart()); // чтобы не терялась связь при обновлении
 
         orderRepository.save(updateOrder);
+        LOGGER.info("Order was updated successfully: " + updateOrder);
     }
 
     @Override
     @Transactional
     public void delete(int id) {
         orderRepository.deleteById(id);
+        LOGGER.info("Order with id = {} was deleted successfully", id);
     }
 
     @Override

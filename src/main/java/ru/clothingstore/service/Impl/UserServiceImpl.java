@@ -1,6 +1,7 @@
 package ru.clothingstore.service.Impl;
 
 import org.hibernate.Hibernate;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,11 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.clothingstore.model.cart.Cart;
 import ru.clothingstore.model.order.Order;
-import ru.clothingstore.model.person.Reputation;
-import ru.clothingstore.model.person.User;
+import ru.clothingstore.model.user.Reputation;
+import ru.clothingstore.model.user.User;
 import ru.clothingstore.repository.UserRepository;
 import ru.clothingstore.service.MailService;
-import ru.clothingstore.service.NewsService;
 import ru.clothingstore.service.UserService;
 
 import java.security.Principal;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(NewsService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
     @Value("${hostname}")
     private String hostname;
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
-        LOGGER.info("User has added successfully ", user);
+        LOGGER.info("User {} was added successfully ", user);
     }
 
     // TODO
@@ -80,15 +80,10 @@ public class UserServiceImpl implements UserService {
             } else {
                 userToBeUpdate.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
             }
-//        updatePerson.setUsername(personToBeUpdate.getUsername());
-//        updatePerson.setPassword(personToBeUpdate.getPassword());
-//            updatePerson.setReputation(personToBeUpdate.getReputation());
-//            updatePerson.setCreatedAt(personToBeUpdate.getCreatedAt());
-//            updatePerson.setCart(personToBeUpdate.getCart());
-//            updatePerson.setId(personToBeUpdate.getId());
-//            updatePerson.setReputation(personToBeUpdate.getReputation());
-//        updatePerson.setRole(personToBeUpdate.getRole());
             userRepository.save(userToBeUpdate);
+            LOGGER.info("User {} was added successfully", userToBeUpdate.getUsername());
+        } else {
+            LOGGER.warn("User {} was not added", updatedUser.getUsername());
         }
     }
 
@@ -96,6 +91,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void delete(int id) {
         userRepository.deleteById(id);
+        LOGGER.info("User with id = {} was added successfully", id);
     }
 
     @Override
@@ -145,6 +141,7 @@ public class UserServiceImpl implements UserService {
         user.setActivationCode(null);
 
         userRepository.save(user);
+        LOGGER.info("User {} was activated successfully", user.getUsername());
         return true;
     }
 
@@ -169,6 +166,8 @@ public class UserServiceImpl implements UserService {
         }
 
         userRepository.save(user);
+        LOGGER.info("User {} was updated profile successfully", user.getUsername());
+
         if (isEmailChanged) {
             sendMessage(user);
         }

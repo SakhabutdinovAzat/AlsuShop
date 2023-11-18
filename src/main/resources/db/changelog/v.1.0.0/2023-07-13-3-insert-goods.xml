@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="now" value="now()" dbms="postgresql"/>
+
+    <changeSet logicalFilePath="2023-07-13-3-insert-goods"
+               id="2023-07-13-3-insert-goods" author="azat">
+        <insert tableName="good">
+            <column  name="title"  value="Свитшот мужской PUMA ESS+ Big Embroidery Crew"/>
+            <column  name="description"  value="Комфортный свитшот PUMA станет отличным дополнением к образу для прохладных дней."/>
+            <column  name="active"  value="true"/>
+            <column  name="small_image_link"  value="good1.1.jpg"/>
+            <column  name="quantity"  value="5"/>
+            <column  name="price"  value="2300"/>
+            <column  name="category_id"  value="1"/>
+        </insert>
+        <insert tableName="good">
+            <column  name="title"  value="Джемпер флисовый мужской"/>
+            <column  name="description"  value="Флисовый джемпер IcePeak Yank — незаменимая вещь в походной экипировке. Модель можно носить отдельно или в качестве утепляющего слоя."/>
+            <column  name="active"  value="true"/>
+            <column  name="small_image_link"  value="good1.2.jpg"/>
+            <column  name="quantity"  value="5"/>
+            <column  name="price"  value="3200"/>
+            <column  name="category_id"  value="1"/>
+        </insert>
+        <insert tableName="good">
+            <column  name="title"  value="Худи мужской Regatta Kassian"/>
+            <column  name="description"  value="Regatta Great Outdoors Kassian — идеальный выбор для прохладных летних вечеров или непредсказуемого межсезонья."/>
+            <column  name="active"  value="true"/>
+            <column  name="small_image_link"  value="good1.3.jpg"/>
+            <column  name="quantity"  value="5"/>
+            <column  name="price"  value="2700"/>
+            <column  name="category_id"  value="1"/>
+        </insert>
+        <insert tableName="good">
+            <column  name="title"  value="Худи мужской Adidas"/>
+            <column  name="description"  value="Практичная худи от Adidas прекрасно дополнит твой образ в спортивном стиле."/>
+            <column  name="active"  value="true"/>
+            <column  name="small_image_link"  value="good1.4.jpg"/>
+            <column  name="quantity"  value="5"/>
+            <column  name="price"  value="4200"/>
+            <column  name="category_id"  value="1"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import ru.clothingstore.model.cart.Cart;
-import ru.clothingstore.model.person.User;
+import ru.clothingstore.model.user.User;
 
 import javax.persistence.*;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package ru.clothingstore.model.person;
+package ru.clothingstore.model.user;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

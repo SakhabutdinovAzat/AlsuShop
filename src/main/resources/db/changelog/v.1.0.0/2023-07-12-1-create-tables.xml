@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet logicalFilePath="2023-07-12-1-create-tables"
+               id="2023-07-12-1-create-tables" author="azat">
+        <createTable tableName="role">
+            <column name="id" type="serial">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="cart">
+            <column name="id" type="serial">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="sum" type="double precision">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="person">
+            <column name="id" type="serial">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="username" type="varchar(30)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="activation_code" type="varchar(255)">
+            </column>
+            <column name="active" type="boolean" defaultValueBoolean="true">
+            </column>
+            <column name="role_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_person_role" references="role(id)"/>
+            </column>
+            <column name="cart_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_person_cart" references="cart(id)"/>
+            </column>
+            <column name="firstname" type="varchar(30)">
+            </column>
+            <column name="lastname" type="varchar(30)">
+            </column>
+            <column name="age" type="int">
+            </column>
+            <column name="address" type="varchar(100)">
+            </column>
+            <column name="reputation" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+            </column>
+        </createTable>
+
+        <createTable tableName="orders">
+            <column name="id" type="serial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_orders_user" references="person(id)"/>
+            </column>
+            <column name="cart_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_orders_cart" references="cart(id)"/>
+            </column>
+            <column name="order_date" type="timestamp">
+            </column>
+            <column name="status" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="category">
+            <column name="id" type="serial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="title" type="varchar(64)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="varchar">
+            </column>
+        </createTable>
+
+        <createTable tableName="good">
+            <column name="id" type="serial">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="title" type="varchar(64)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="varchar">
+            </column>
+            <column name="active" type="boolean" defaultValueBoolean="true">
+            </column>
+            <column name="small_image_link" type="varchar(255)">
+            </column>
+            <column name="quantity" type="int">
+            </column>
+            <column name="price" type="double precision">
+            </column>
+            <column name="category_id" type="int">
+                <constraints foreignKeyName="fk_good_category" references="category(id)"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="products">
+            <column name="id" type="serial">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="cart_id" type="int">
+                <constraints foreignKeyName="fk_products_cart" references="cart(id)"/>
+            </column>
+            <column name="good_id" type="int">
+                <constraints foreignKeyName="fk_products_good" references="good(id)"/>
+            </column>
+            <column name="price" type="int">
+                <constraints checkConstraint="price > 0"/>
+            </column>
+            <column name="count" type="int">
+            </column>
+            <column name="added_at" type="timestamp">
+            </column>
+        </createTable>
+
+        <createTable tableName="news">
+            <column name="id" type="serial">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="title" type="varchar(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="varchar(225)">
+            </column>
+            <column name="news_image_link" type="varchar(100)">
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

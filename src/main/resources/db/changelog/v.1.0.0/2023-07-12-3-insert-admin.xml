@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="now" value="now()" dbms="postgresql"/>
+
+    <changeSet logicalFilePath="2023-07-12-3-insert-admin"
+               id="2023-07-12-3-insert-admin" author="azat">
+        <insert tableName="cart">
+            <column  name="sum"  valueNumeric="0"/>
+        </insert>
+
+        <insert tableName="person">
+            <column name="username" value="admin"/>
+            <column name="password" value="$2a$10$LWh7BnsjTeiMFIHP5QPNmO6Fu5RoafxPA6AhIg9ydeirF4SBNGiWi"/>
+            <column name="email" value="admin@mail.ru"/>
+            <column name="activation_code" value=""/>
+            <column name="active" valueBoolean="true"/>
+            <column name="role_id" value="1"/>
+            <column name="cart_id" value="1"/>
+            <column name="firstname" value="Азат"/>
+            <column name="lastname" value="Сахабутдинов"/>
+            <column name="age" value="25"/>
+            <column name="address" value=""/>
+            <column name="reputation" value="0"/>
+            <column name="created_at" valueDate="${now}"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

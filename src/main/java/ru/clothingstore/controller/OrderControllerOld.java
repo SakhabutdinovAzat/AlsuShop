@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.clothingstore.model.order.Order;
-import ru.clothingstore.model.person.User;
+import ru.clothingstore.model.user.User;
 import ru.clothingstore.service.OrderService;
 import ru.clothingstore.service.UserService;
 
@@ -60,14 +60,15 @@ public class OrderControllerOld {
         return "orders/new";
     }
 
-    @PostMapping()
-    public String create(@ModelAttribute("order") @Valid Order order, BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            return "orders/new";
-
-        orderService.save(order);
-        return "redirect:/orders";
-    }
+    // todo убрать
+//    @PostMapping()
+//    public String create(@ModelAttribute("order") @Valid Order order, BindingResult bindingResult) {
+//        if (bindingResult.hasErrors())
+//            return "orders/new";
+//
+//        orderService.save(order);
+//        return "redirect:/orders";
+//    }
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {

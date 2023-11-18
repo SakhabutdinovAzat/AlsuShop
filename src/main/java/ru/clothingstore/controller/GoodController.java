@@ -1,14 +1,18 @@
 package ru.clothingstore.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.clothingstore.model.good.Good;
 import ru.clothingstore.service.GoodService;
 
-import java.util.ArrayList;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/good")
@@ -28,15 +32,29 @@ public class GoodController {
         return "good/detail";
     }
 
-    // TODO Настроить пангинацию
     @GetMapping("/category/{id}")
-    public String category(@PathVariable("id") int categoryId, Model model) {
-        // Сколько товаров выводить в каталоге
-        Integer goodsCount = 12;
+    public String category(@PathVariable("id") int categoryId, Model model,
+                           @RequestParam(value = "offset", defaultValue = "0", required = false) @Min(0) Integer offset,
+                           @RequestParam(value = "limit", defaultValue = "3", required = false) @Min(1) @Max(20) Integer limit,
+                           @RequestParam(value = "sort", defaultValue = "title", required = false) String sort) {
+
+        Page<Good> goodsPage = goodService.getGoodsByCategory(categoryId, true, offset, limit, sort);
+        List<Good> goodList = goodsPage.getContent();
+        Good good = goodList.get(0);
+
+        System.out.println(goodsPage.getNumber());
 
         model.addAttribute("category", categoryId);
-        model.addAttribute("catalogGoods", new ArrayList<>(goodService.getGoodsByCategory(categoryId, true)));
+        model.addAttribute("goodList", goodList);
+        model.addAttribute("goodsPage", goodsPage);
 
+        int totalPages = goodsPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
         return "good/category";
     }
 

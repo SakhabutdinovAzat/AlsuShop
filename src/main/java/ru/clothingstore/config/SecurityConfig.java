@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                    .antMatchers("/auth/login", "/auth/registration", "/error").permitAll()
+                    .antMatchers("/auth/login", "/auth/registration", "/error", "/swagger-ui/**").permitAll()
 //                    .antMatchers("/admin/**").hasRole("ROLE_ADMIN")
                     .antMatchers("/cart/**", "/order/**").authenticated()
 //                    .anyRequest().authenticated()//hasAnyRole("ROLE_USER", "ROLE_ADMIN")

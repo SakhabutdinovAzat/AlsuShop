@@ -1,4 +1,4 @@
-package ru.clothingstore.service.Impl;
+package ru.clothingstore.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -12,12 +12,11 @@ import org.springframework.data.domain.Sort;
 import ru.clothingstore.model.cart.Cart;
 import ru.clothingstore.model.good.Good;
 import ru.clothingstore.model.order.Order;
-import ru.clothingstore.model.person.User;
+import ru.clothingstore.model.user.User;
 import ru.clothingstore.model.product.Product;
 import ru.clothingstore.repository.OrderRepository;
 import ru.clothingstore.repository.UserRepository;
-import ru.clothingstore.service.CartService;
-import ru.clothingstore.service.MailService;
+import ru.clothingstore.service.Impl.OrderServiceImpl;
 
 import java.util.HashSet;
 import java.util.List;
@@ -27,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class OrderServiceImplTest {
+class OrderServiceTest {
 
     private Order order;
 
@@ -71,14 +70,6 @@ class OrderServiceImplTest {
         verify(orderRepository, times(1)).findById(1);
         assertEquals(order, order1);
     }
-
-    @Test
-    void save() {
-        orderService.save(order);
-
-        verify(orderRepository, times(1)).save(order);
-    }
-
     @Test
     void create() {
         User user = new User();

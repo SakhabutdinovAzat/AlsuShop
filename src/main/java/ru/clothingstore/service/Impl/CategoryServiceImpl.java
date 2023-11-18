@@ -28,7 +28,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getCategoryById(int id) {
         Category category = categoryRepository.getById(id);
-        LOGGER.info("Category loaded: {}.", category);
         return category;
     }
 
@@ -36,14 +35,14 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public void addCategory(Category category) {
         categoryRepository.save(category);
-        LOGGER.info("Category added: ", category);
+        LOGGER.info("Category was added successfully: " + category);
     }
 
     @Override
     @Transactional
     public void updateCategory(Category category) {
         categoryRepository.save(category);
-        LOGGER.info("Category updated: ", category);
+        LOGGER.info("Category was updated successfully: " + category);
     }
 
     @Override
@@ -51,8 +50,10 @@ public class CategoryServiceImpl implements CategoryService {
     public void deleteCategoryById(int id) {
         Category category = categoryRepository.getById(id);
         if(category != null){
-            LOGGER.info("Category removed: {}.", category);
             categoryRepository.delete(category);
+            LOGGER.info("Category was removed successfully: " + category);
+        } else {
+            LOGGER.warn("Category was not deleted, because is null");
         }
     }
 

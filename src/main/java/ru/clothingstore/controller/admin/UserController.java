@@ -8,7 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.clothingstore.model.cart.Cart;
-import ru.clothingstore.model.person.User;
+import ru.clothingstore.model.user.User;
 import ru.clothingstore.service.OrderService;
 import ru.clothingstore.service.RoleService;
 import ru.clothingstore.service.UserService;

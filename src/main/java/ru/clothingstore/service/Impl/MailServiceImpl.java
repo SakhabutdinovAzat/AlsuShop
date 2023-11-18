@@ -1,5 +1,7 @@
 package ru.clothingstore.service.Impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -11,6 +13,8 @@ import ru.clothingstore.service.MailService;
 public class MailServiceImpl implements MailService {
 
     private final JavaMailSender mailSender;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MailService.class);
 
     @Value("${spring.mail.username}")
     private String username;
@@ -29,5 +33,6 @@ public class MailServiceImpl implements MailService {
         mailMessage.setText(message);
 
         mailSender.send(mailMessage);
+        LOGGER.info("Mail to " + emailTo + " was sent successfully");
     }
 }

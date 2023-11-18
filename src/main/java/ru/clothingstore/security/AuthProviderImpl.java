@@ -1,5 +1,7 @@
 package ru.clothingstore.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,6 +19,8 @@ public class AuthProviderImpl implements AuthenticationProvider {
 
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthProviderImpl.class);
+
     @Autowired
     public AuthProviderImpl(UserDetailsServiceImpl userDetailsServiceImpl) {
         this.userDetailsServiceImpl = userDetailsServiceImpl;
@@ -26,15 +30,17 @@ public class AuthProviderImpl implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
 
-        UserDetails personDetails = userDetailsServiceImpl.loadUserByUsername(username);
+        UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);
 
         String password = authentication.getCredentials().toString();
 
-        if(!password.equals(personDetails.getPassword()))
+        if(!password.equals(userDetails.getPassword()))
             throw new BadCredentialsException("Incorrect password");
 
+        LOGGER.info("User {} was authentication successfully", username);
+
         // TODO
-        return new UsernamePasswordAuthenticationToken(personDetails, password, Collections.emptyList());
+        return new UsernamePasswordAuthenticationToken(userDetails, password, Collections.emptyList());
     }
 
     @Override

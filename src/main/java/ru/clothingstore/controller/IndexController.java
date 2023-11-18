@@ -22,7 +22,9 @@ public class IndexController {
 
     @GetMapping(value = {"/", "/index"})
     public String indexPage(Model model) {
-        model.addAttribute("newGoods", goodService.getGoods(4, true));
+        // todo сделать чтобы показывало только 4 позиции
+//        model.addAttribute("newGoods", goodService.getGoods(4, true));
+        model.addAttribute("newGoods", goodService.getAllGoods());
         model.addAttribute("catalogGoods", goodService.getAllGoods());
         model.addAttribute("listNews", newsService.getAllNews());
 

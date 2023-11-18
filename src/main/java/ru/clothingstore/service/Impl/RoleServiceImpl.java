@@ -3,7 +3,7 @@ package ru.clothingstore.service.Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.clothingstore.model.person.Role;
+import ru.clothingstore.model.user.Role;
 import ru.clothingstore.repository.RoleRepository;
 import ru.clothingstore.service.RoleService;
 

@@ -7,12 +7,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.clothingstore.model.person.User;
+import ru.clothingstore.model.user.User;
 import ru.clothingstore.repository.UserRepository;
 import ru.clothingstore.service.Impl.MailServiceImpl;
 import ru.clothingstore.service.Impl.RegistrationServiceImpl;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 

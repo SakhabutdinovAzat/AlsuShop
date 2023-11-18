@@ -1,7 +1,7 @@
 package ru.clothingstore.service;
 
 import ru.clothingstore.model.order.Order;
-import ru.clothingstore.model.person.User;
+import ru.clothingstore.model.user.User;
 
 import java.security.Principal;
 import java.util.List;

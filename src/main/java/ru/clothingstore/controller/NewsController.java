@@ -20,6 +20,7 @@ public class NewsController {
     }
 
     @GetMapping()
+//    @ApiOperation("Получение списка новостей")
     public String newsList(Model model) {
         model.addAttribute("news", newsService.getLastAddedNews(10));
         return "news/news";
@@ -29,5 +30,10 @@ public class NewsController {
     public String getDetailNews(@PathVariable("id") int id, Model model) {
         model.addAttribute("news", newsService.getNewsById(id));
         return "news/detail";
+    }
+    // Todo delete after tests
+    @GetMapping("/test")
+    public String index() {
+        return "test";
     }
 }

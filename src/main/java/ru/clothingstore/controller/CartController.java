@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.clothingstore.model.cart.Cart;
 import ru.clothingstore.model.good.Good;
-import ru.clothingstore.model.person.User;
+import ru.clothingstore.model.user.User;
 import ru.clothingstore.model.product.Product;
 import ru.clothingstore.service.CartService;
 import ru.clothingstore.service.GoodService;

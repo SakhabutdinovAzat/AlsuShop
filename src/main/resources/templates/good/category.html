@@ -13,17 +13,18 @@
 
     <h2>CATALOG</h2>
     <div class="row" style="margin-top: 20px">
-        <div class="col-sm-3 row-eq-height" th:each="good : ${catalogGoods}">
+        <div class="col-sm-3 row-eq-height" th:each="good : ${goodsPage}">
+            <!--Todo уменьшить размер карточки-->
             <div class="card text-center mb-3" style="width: 18rem;">
                 <a th:href="@{/good/detail/{id}(id=${good.id})}">
                     <div class="card-img-top card-image-fixheight">
                         <!--        TODO  добавить заглушку-->
-                        <img th:src="@{${'/img/' + good.smallImageLink}}" alt="Card smallImageLink cap"/>
+                        <img th:src="@{${'/img/' + good.smallImageLink}}" class="card-img-top" alt="Card smallImageLink cap"/>
                     </div>
                 </a>
                 <div class="card-block">
                     <a th:href="@{/good/detail/{id}(id=${good.id})}" style="text-decoration: none;">
-                        <h4 class="card-title" th:text="${good.title}"></h4>
+                        <h4 class="card-title" th:text="${good.title}" style="float: bottom; min-height: 6rem;"></h4>
                     </a>
                     <hr>
                     <ul class="list-group list-group-flush">
@@ -32,9 +33,8 @@
                         </li>
                     </ul>
                     <hr>
-<!--                        TODO  добавить срез строки при размере описания больше 100-->
-<!--                    <p class="card-text" th:text="${#strings.substring(good.description, 0, 100).concat('...')}"></p>-->
-                    <p class="card-text" style="text-align: left" th:text="${good.description}"></p>
+                    <p class="card-text" th:if="${good.description.length() > 100}" style="text-align: left; min-height: 7rem;" th:text="${#strings.substring(good.description, 0, 100).concat('...')}"></p>
+                    <p class="card-text" th:unless="${good.description.length() > 100}" style="min-height: 7rem;" th:text="${good.description}"></p>
                     <div class="card-footer">
                         <a data-toggle="modal"
                            data-target="#modalBuy"
@@ -50,7 +50,20 @@
             </div>
         </div>
     </div>
-
+        <ul class="pagination">
+            <li th:class="${goodsPage.number == 1} ? 'page-item' : 'page-item disabled'">
+                <a class="page-link" th:href="@{/good/category/{id}(id=${category}, offset=${goodsPage.getNumber()} - 1)}">Предыдущая</a>
+            </li>
+            <div th:if="${goodsPage.totalPages > 0}"
+                 th:each="pageNumber : ${pageNumbers}">
+                <li th:class="${pageNumber==goodsPage.number + 1} ? 'page-item active' : 'page-item'" aria-current="page">
+                    <a class="page-link" th:href="@{/good/category/{id}(id=${category}, offset=${pageNumber - 1}, limit=${goodsPage.size})}" th:text="${pageNumber}"> Current page</a>
+                </li>
+            </div>
+            <li class="page-item" th:unless="${pageNumbers.size() == goodsPage.getNumber() + 1}">
+                <a class="page-link" th:href="@{/good/category/{id}(id=${category}, offset=${goodsPage.getNumber()} + 1)}">Следующая</a>
+            </li>
+        </ul>
 </div>
 </body>
 

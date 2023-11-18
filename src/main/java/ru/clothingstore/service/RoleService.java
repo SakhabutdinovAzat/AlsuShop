@@ -1,6 +1,6 @@
 package ru.clothingstore.service;
 
-import ru.clothingstore.model.person.Role;
+import ru.clothingstore.model.user.Role;
 
 import java.util.Set;
 

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav aria-label="Пример навигации по страницам">
+    <ul class="pagination">
+        <div th:each="page: ${page}">
+            <li class="page-item"><a class="page-link" th:href="@{/good/category/{id}(id=${category}, offset=${page})}" th:text="${page}">page</a></li>
+        </div>
+        <li class="page-item disabled">
+            <span class="page-link">Предыдущая</span>
+        </li>
+        <li class="page-item"><a class="page-link" th:href="@{/good/category/{id}(id=${category}, offset=1, limit=2)}">1</a></li>
+        <li class="page-item active" aria-current="page">
+            <span class="page-link">2</span>
+        </li>
+        <li class="page-item"><a class="page-link" th:href="@{/good/category/{id}(id=${category})}">3</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#">Следующая</a>
+        </li>
+    </ul>
+</nav>
+</body>
+</html>

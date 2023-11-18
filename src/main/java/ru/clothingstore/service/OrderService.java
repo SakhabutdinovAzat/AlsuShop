@@ -1,7 +1,7 @@
 package ru.clothingstore.service;
 
 import ru.clothingstore.model.order.Order;
-import ru.clothingstore.model.person.User;
+import ru.clothingstore.model.user.User;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface OrderService {
 
     public void create(User user);
 
-    public void save(Order order);
+//    public void save(Order order);
 
     public void update(Order updateOrder);
 

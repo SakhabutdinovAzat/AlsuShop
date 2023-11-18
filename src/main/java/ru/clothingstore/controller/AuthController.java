@@ -1,5 +1,9 @@
 package ru.clothingstore.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -13,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.clothingstore.model.dto.CaptchaResponseDto;
-import ru.clothingstore.model.person.User;
+import ru.clothingstore.model.user.User;
 import ru.clothingstore.service.RegistrationService;
 import ru.clothingstore.service.UserService;
 import ru.clothingstore.util.UserValidator;
@@ -23,6 +27,7 @@ import java.util.Collections;
 
 @Controller
 @RequestMapping("/auth")
+@Tag(name = "Контроллер авторизации", description = "Регистрация и авторизация пользователей")
 public class AuthController {
 
     private final static String CAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s";
@@ -44,17 +49,21 @@ public class AuthController {
 
 
     @GetMapping("/login")
+    @Operation(summary = "Страница авторизации")
     public String loginPage() {
         return "auth/login";
     }
 
     @GetMapping("/registration")
+    @Operation(summary = "Страница регистрации")
     public String registrationPage(@ModelAttribute("user") User user) {
         return "auth/registration";
     }
 
     @PostMapping("/registration")
-    public String performRegistration(@RequestParam("g-recaptcha-response") String captchaResponse,
+    @SecurityRequirement(name = "JWT")
+    @Operation(summary = "Регистрация пользователя", description = "Позволяет зарегистрировать пользователя")
+    public String performRegistration(@RequestParam("g-recaptcha-response") @Parameter(description = "Ответ от recaptcha") String captchaResponse,
                                       @ModelAttribute("user") @Valid User user,
                                       BindingResult bindingResult,
                                       Model model,
@@ -79,6 +88,7 @@ public class AuthController {
     }
 
     @GetMapping("/activate/{code}")
+    @Operation(summary = "Активация email пользователя")
     public String activate(Model model, @PathVariable String code) {
         boolean isActivated = userService.activateUser(code);
 

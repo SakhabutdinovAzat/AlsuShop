@@ -1,5 +1,6 @@
 package ru.clothingstore.service;
 
+import org.springframework.data.domain.Page;
 import ru.clothingstore.model.good.Good;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public interface GoodService {
 
     public Set<Good> getGoodsByCategory(int categoryId);
 
-    public Set<Good> getGoodsByCategory(int categoryId, boolean active);
+    public Page<Good> getGoodsByCategory(int categoryId, boolean active, int offset, int limit, String sort);
 
     public Set<Good> getGoodsByCategory(int count, int categoryId);
 

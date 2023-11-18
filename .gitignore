@@ -1,12 +1,16 @@
 ### My ignore ###
 src/main/resources/application.properties
+src/main/resources/application-dev.properties
 src/main/resources/DB_SQL
-src/main/java/ru/clothingstore/config/MvcConfig.java
 
-src/main/resources/db.migration/V2.2__Add_category.sql
-src/main/resources/db.migration/Notes
+src/main/java/ru/clothingstore/config/MvcConfig.java
+src/main/java/ru/clothingstore/controller/ProductsControllerOld.java
+src/main/java/ru/clothingstore/service/Impl/ProductsService.java
+
+src/main/resources/log4j.properties
+src/main/resources/db.migration
 src/main/resources/static/css/main.css
-scripts
+FileForDocker
 
 ### Tests ###
 src/main/resources/templates/test.html

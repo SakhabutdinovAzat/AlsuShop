@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="now" value="now()" dbms="postgresql"/>
+
+    <changeSet logicalFilePath="2023-07-13-1-insert-category"
+               id="2023-07-13-1-insert-category" author="azat">
+        <insert tableName="category">
+            <column  name="title"  value="Толстовки и худи"/>
+            <column  name="description"  value="Такая одежда отлично защищает от холода и дарит комфорт во время занятий спортом или на отдыхе.
+            Модели выполнены из качественных натуральных и синтетических материалов. В том числе представлен широкий выбор моделей из флиса.
+            В разделе вы найдете:
+            модели с капюшоном;
+            модели на молнии и без;
+            товары с воротником-стойкой."/>
+        </insert>
+
+        <insert tableName="category">
+            <column  name="title"  value="Брюки"/>
+            <column  name="description"  value=" Все модели выполнены из качественных технологичных тканей. Утепленные брюки часто имеют водоотталкивающее покрытие.
+            В разделе представлены:
+            утепленные мужские брюки;
+            мужские бриджи;
+            спортивные брюки;
+            брюки для активного отдыха и походов."/>
+        </insert>
+
+        <insert tableName="category">
+            <column  name="title"  value="Футболки"/>
+            <column  name="description"  value="Модели имеют свободный или анатомический крой, что обеспечивает максимальный комфорт при движении.
+            В разделе вы найдете:
+            спортивные мужские футболки;
+            футболки с длинным рукавом;
+            одежда, ориентированная на продвинутый уровень занятий спортом: бегом, футболом, теннисом, фитнесом."/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

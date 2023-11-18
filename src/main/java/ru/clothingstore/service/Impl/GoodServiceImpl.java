@@ -1,6 +1,11 @@
 package ru.clothingstore.service.Impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.clothingstore.model.good.Category;
@@ -9,10 +14,7 @@ import ru.clothingstore.repository.CategoryRepository;
 import ru.clothingstore.repository.GoodRepository;
 import ru.clothingstore.service.GoodService;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,6 +22,8 @@ public class GoodServiceImpl implements GoodService {
 
     private final GoodRepository goodRepository;
     private final CategoryRepository categoryRepository;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GoodService.class);
 
     @Autowired
     public GoodServiceImpl(GoodRepository goodRepository, CategoryRepository categoryRepository) {
@@ -66,27 +70,30 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
-    public Set<Good> getGoodsByCategory(int categoryId, boolean active) {
+    public Page<Good> getGoodsByCategory(int categoryId, boolean active, int offset, int limit, String sort) {
         Category category = categoryRepository.getById(categoryId);
-        return new HashSet<>(goodRepository.findGoodsByCategoryAndActive(category, active));
+        return goodRepository.findGoodsByCategoryAndActive(category, active, PageRequest.of(offset, limit, Sort.by(sort)));
     }
 
     @Override
     @Transactional
     public void addGood(Good good) {
         goodRepository.save(good);
+        LOGGER.info("Good was added successfully: " + good);
     }
 
     @Override
     @Transactional
     public void updateGood(Good good) {
         goodRepository.save(good);
+        LOGGER.info("Good was updated successfully: " + good);
     }
 
     @Override
     @Transactional
     public void deleteGood(int id) {
         goodRepository.deleteById(id);
+        LOGGER.info("Good with id = {} was deleted successfully", id);
     }
 
 
