@@ -31,7 +31,7 @@ public class OrderController {
     public String getOrders(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        User user  = userService.getByUsername(username).get();
+        User user  = userService.getByUsername(username).orElseGet(User::new);
 
         List<Order> orders = new ArrayList<>(user.getOrders());
         orders.sort(Comparator.comparing(Order::getId).reversed());
@@ -44,7 +44,7 @@ public class OrderController {
     public String createOrder(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        User user = userService.getByUsername(username).get();
+        User user = userService.getByUsername(username).orElseGet(User::new);
 
         if (user.getCart().getProducts().isEmpty()) {
             return "order/index";

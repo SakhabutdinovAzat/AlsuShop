@@ -23,7 +23,7 @@ public class UserController {
 
     @GetMapping("/profile")
     public String getProfile(Model model, Principal principal) {
-        User user = userService.getByUsername(principal.getName()).orElse(null);
+        User user = userService.getByUsername(principal.getName()).orElseGet(User::new);
         model.addAttribute("username", user.getUsername());
         model.addAttribute("email", user.getEmail());
 

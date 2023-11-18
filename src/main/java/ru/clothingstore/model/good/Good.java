@@ -11,6 +11,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,6 +52,9 @@ public class Good {
     @Digits(integer = 9, fraction = 2)
     private Double price;
 
+    @Column(name = "added")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date added;
     @NotNull
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")

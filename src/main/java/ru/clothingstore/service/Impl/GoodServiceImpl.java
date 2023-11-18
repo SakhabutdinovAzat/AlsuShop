@@ -57,8 +57,8 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
-    public Set<Good> getAllGoods(boolean active) {
-        return new HashSet<>(goodRepository.findAllByActive(active));
+    public Page<Good> getAllGoods(boolean active, int offset, int limit, String sort) {
+        return goodRepository.findAllByActive(active, PageRequest.of(offset, limit, Sort.by(sort)));
     }
 
 

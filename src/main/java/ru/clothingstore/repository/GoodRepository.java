@@ -21,7 +21,7 @@ public interface GoodRepository extends JpaRepository<Good, Integer> {
 
     Page<Good> findGoodsByCategoryAndActive(Category category, boolean active, Pageable pageable);
 
-    List<Good> findAllByActive(boolean active);
+    Page<Good> findAllByActive(boolean active, Pageable pageable);
 
     List<Good> findTop4ByActive(boolean active);
 

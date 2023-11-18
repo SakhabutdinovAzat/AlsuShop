@@ -50,26 +50,12 @@
             </div>
         </div>
     </div>
-        <ul class="pagination">
-            <li th:class="${goodsPage.number == 1} ? 'page-item' : 'page-item disabled'">
-                <a class="page-link" th:href="@{/good/category/{id}(id=${category}, offset=${goodsPage.getNumber()} - 1)}">Предыдущая</a>
-            </li>
-            <div th:if="${goodsPage.totalPages > 0}"
-                 th:each="pageNumber : ${pageNumbers}">
-                <li th:class="${pageNumber==goodsPage.number + 1} ? 'page-item active' : 'page-item'" aria-current="page">
-                    <a class="page-link" th:href="@{/good/category/{id}(id=${category}, offset=${pageNumber - 1}, limit=${goodsPage.size})}" th:text="${pageNumber}"> Current page</a>
-                </li>
-            </div>
-            <li class="page-item" th:unless="${pageNumbers.size() == goodsPage.getNumber() + 1}">
-                <a class="page-link" th:href="@{/good/category/{id}(id=${category}, offset=${goodsPage.getNumber()} + 1)}">Следующая</a>
-            </li>
-        </ul>
+    <!--Template pager-->
+    <div id="pager" th:include="/fragments/pager :: pager"></div>
 </div>
 </body>
 
-<footer>
-    <!--Template footer-->
-    <div id="footer" th:include="/fragments/footer :: footer"></div>
-</footer>
+<!--Template footer-->
+<div id="footer" th:include="/fragments/footer :: footer"></div>
 
 </html>

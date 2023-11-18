@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="azat" id="2023-11-18-1-add-column-added_at-good">
+        <addColumn tableName="good">
+            <column name="added"
+                    position="7"
+                    type="datetime"
+                    valueDate="current_datetime"
+                    defaultValueDate="current_datetime"
+            />
+        </addColumn>
+        <addNotNullConstraint tableName="good"
+                              columnName="added"/>
+    </changeSet>
+
+</databaseChangeLog>

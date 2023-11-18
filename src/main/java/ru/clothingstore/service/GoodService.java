@@ -18,7 +18,7 @@ public interface GoodService {
 
     public Set<Good> getAllGoods();
 
-    public Set<Good> getAllGoods(boolean active);
+    public Page<Good> getAllGoods(boolean active, int offset, int limit, String sort);
 
     public Set<Good> getGoods(int count);
 

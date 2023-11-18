@@ -42,11 +42,10 @@ public class GoodController {
         List<Good> goodList = goodsPage.getContent();
         Good good = goodList.get(0);
 
-        System.out.println(goodsPage.getNumber());
-
         model.addAttribute("category", categoryId);
         model.addAttribute("goodList", goodList);
         model.addAttribute("goodsPage", goodsPage);
+        model.addAttribute("url", "good/category/" + categoryId);
 
         int totalPages = goodsPage.getTotalPages();
         if (totalPages > 0) {

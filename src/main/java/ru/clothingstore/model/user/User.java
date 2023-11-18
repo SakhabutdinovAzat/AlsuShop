@@ -85,7 +85,7 @@ public class User {
     private int age;
 
     @Column(name = "address")
-    @Pattern(regexp = "[A-Z]\\w+, [A-Z]\\w+, \\d{6}", message = "Incorrect address")
+    @Pattern(regexp = "[A-Z]\\w+, [A-Z]\\w+ \\d{2}, \\d{6}", message = "Incorrect address")
     @Schema(description = "Адрес", example = "Kazan, Pushkina 43, 512484")
     private String address;
 
