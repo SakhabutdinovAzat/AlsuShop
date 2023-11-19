@@ -114,16 +114,6 @@ public class CartController {
         addItemInCart(good, cart);
         cartService.updateCart(cart);
 
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String userName = authentication.getName();
-//
-//        User user = personService.findByUsername(userName).orElse(null);
-//        Good good = goodService.getGoodById(Integer.valueOf(id), true);
-//
-//        Cart cart = user.getCart();
-//        addItemInCart(good, cart);
-//        cartService.updateCart(cart);
-
         // Todo релизовать или убрать
 //        return getJson("<b>" + good.getTitle() + "</b> been successfully added in your cart!");
         return "redirect:/index";

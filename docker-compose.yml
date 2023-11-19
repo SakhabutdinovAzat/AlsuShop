@@ -6,7 +6,8 @@ services:
       context: ./
       dockerfile: Dockerfile
     depends_on:
-      - postgres-db
+      postgres-db:
+        condition: service_healthy
     ports:
       - "8083:8083"
     environment:
@@ -18,6 +19,11 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Azat
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "-d", "store_app_db" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
     ports:
       - "15432:5432"
     volumes:

@@ -20,10 +20,10 @@
             <column name="active" valueBoolean="true"/>
             <column name="role_id" value="1"/>
             <column name="cart_id" value="1"/>
-            <column name="firstname" value="Азат"/>
-            <column name="lastname" value="Сахабутдинов"/>
+            <column name="firstname" value="Azat"/>
+            <column name="lastname" value="Sakhabutdinov"/>
             <column name="age" value="25"/>
-            <column name="address" value=""/>
+            <column name="address" value="Kazan, Pushkina 34, 531684"/>
             <column name="reputation" value="0"/>
             <column name="created_at" valueDate="${now}"/>
         </insert>
