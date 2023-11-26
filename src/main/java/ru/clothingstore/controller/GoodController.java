@@ -40,7 +40,7 @@ public class GoodController {
 
         Page<Good> goodsPage = goodService.getGoodsByCategory(categoryId, true, offset, limit, sort);
         List<Good> goodList = goodsPage.getContent();
-        Good good = goodList.get(0);
+//        Good good = goodList.get(0);
 
         model.addAttribute("category", categoryId);
         model.addAttribute("goodList", goodList);

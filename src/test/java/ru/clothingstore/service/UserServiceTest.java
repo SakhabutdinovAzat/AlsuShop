@@ -128,7 +128,7 @@ class UserServiceTest {
 
     @Test
     void activateUser() {
-        when(userRepository.findByActivationCode("code")).thenReturn(user);
+        when(userRepository.findByActivationCode("code")).thenReturn(Optional.of(user));
 
         boolean activate = userService.activateUser("code");
 

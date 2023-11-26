@@ -17,6 +17,12 @@ spring.liquibase.drop-first=false
 spring.liquibase.change-log=classpath:db/changelog/db.changelog-master.xml
 spring.liquibase.default-schema=public
 
+# SLF4j
+logging.level.root=info
+logging.level.org.springframework.web=error
+logging.level.org.hibernate=error
+logging.file.name=./logs/app.log
+
 # Config mail
 spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
 spring.mail.host=

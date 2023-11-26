@@ -39,7 +39,7 @@ public class UserValidator implements Validator {
             errors.rejectValue("username", "", "Username is already exist");
         }
 
-        // TODO реализовать
+        // Todo реализовать
 
         /*  // посмотреть, если человек с таким ФИО в БД
         if(userService.findByLastnameAndFirstname(user.getFirstName()).isPresent())

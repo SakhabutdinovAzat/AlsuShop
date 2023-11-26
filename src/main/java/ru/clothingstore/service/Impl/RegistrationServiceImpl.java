@@ -21,10 +21,8 @@ import java.util.UUID;
 public class RegistrationServiceImpl implements RegistrationService {
     private final UserRepository userRepository;
     private final RoleService roleService;
-
     private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationService.class);
 
     @Autowired

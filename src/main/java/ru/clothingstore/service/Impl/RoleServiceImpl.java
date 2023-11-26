@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.clothingstore.model.user.Role;
 import ru.clothingstore.repository.RoleRepository;
 import ru.clothingstore.service.RoleService;
+import ru.clothingstore.util.exception.RoleNotFoundException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,12 +24,12 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role getRoleByName(String name) {
-        return roleRepository.findByName(name);
+        return roleRepository.findByName(name).orElseThrow(() -> new RoleNotFoundException("Role with name: " + name + " not found"));
     }
 
     @Override
     public Role getRoleById(int id) {
-        return roleRepository.findById(id).orElse(null);
+        return roleRepository.findById(id).orElseThrow(() -> new RoleNotFoundException("Role with id = " + id + " not found"));
     }
 
     @Override

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ru.clothingstore</groupId>
 	<artifactId>ClothingStore</artifactId>
-	<version>0.0.2</version>
+	<version>1.0.0</version>
 	<name>ClothingStore</name>
 	<description>Online store application project</description>
 	<properties>

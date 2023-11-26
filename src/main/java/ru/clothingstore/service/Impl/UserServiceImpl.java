@@ -15,6 +15,7 @@ import ru.clothingstore.model.user.User;
 import ru.clothingstore.repository.UserRepository;
 import ru.clothingstore.service.MailService;
 import ru.clothingstore.service.UserService;
+import ru.clothingstore.util.exception.UserNotFoundException;
 
 import java.security.Principal;
 import java.util.*;
@@ -45,9 +46,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getOne(int id) {
-        Optional<User> foundUser = userRepository.findById(id);
-
-        return foundUser.orElse(null);
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with id = " + id + " not found"));
     }
 
     @Override
@@ -134,21 +133,23 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public boolean activateUser(String code) {
-        User user = userRepository.findByActivationCode(code);
-        if (user == null) {
-            return false;
-        }
-        user.setActivationCode(null);
+        Optional<User> optionalUser = userRepository.findByActivationCode(code);
 
-        userRepository.save(user);
-        LOGGER.info("User {} was activated successfully", user.getUsername());
-        return true;
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setActivationCode(null);
+            userRepository.save(user);
+
+            LOGGER.info("User {} was activated successfully", user.getUsername());
+            return true;
+        }
+        return false;
     }
 
     @Transactional
     @Override
     public void updateProfile(Principal principal, String password, String email) {
-        User user = userRepository.findByUsername(principal.getName()).get();
+        User user = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new UserNotFoundException("User not found!"));
         String userEmail = user.getEmail();
 
         boolean isEmailChanged = (email != null && !email.equals(userEmail)) || (userEmail != null && !userEmail.equals(email));

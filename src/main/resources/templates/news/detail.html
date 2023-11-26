@@ -8,20 +8,20 @@
 <!--Template Header-->
 <div th:include="/fragments/header :: header"></div>
 
-<!--Todo исправить кривой интерфейс-->
+<!--Todo обновить интерфейс-->
 
 <div class="container mt-5">
 
     <div class="card" style="margin-bottom: 10px">
-        <div class="card-block" style="padding-bottom: 10px; padding-top: 10px;">
+        <div class="card-header">
+            <h2>News Detail</h2>
+        </div>
+        <div class="card-block" style="padding: 10px;">
             <div class="row">
-                <h2>News Detail</h2>
+                <img class="card-img-top" th:src="${'/img/' + news.newsImageLink}" alt="Card newsImageLink cap" style="max-width: 1300px !important;">
             </div>
             <div class="row">
-                <img class="card-img-top" th:src="${news.newsImageLink}" alt="Card newsImageLink cap" style="max-width: 900px !important;">
-            </div>
-            <div class="row">
-                <h4 class="card-title" th:text="${news.title}"></h4>
+                <h3 class="card-title" th:text="${news.title}"></h3>
             </div>
             <div class="row">
                 <p class="card-text" style="font-size: 1.2em" th:text="${news.description}"></p>

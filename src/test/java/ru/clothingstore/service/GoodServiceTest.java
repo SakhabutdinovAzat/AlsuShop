@@ -43,7 +43,7 @@ class GoodServiceTest {
 
     @Test
     void getGoodByTitle() {
-        when(goodRepository.findByTitle("Title")).thenReturn(good);
+        when(goodRepository.findByTitle("Title")).thenReturn(Optional.of(good));
         Good good1 = goodService.getGoodByTitle("Title");
 
         verify(goodRepository, times(1)).findByTitle("Title");

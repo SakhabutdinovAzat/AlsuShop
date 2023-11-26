@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.clothingstore.model.news.News;
 import ru.clothingstore.repository.NewsRepository;
 import ru.clothingstore.service.NewsService;
+import ru.clothingstore.util.exception.ResourceNotFoundException;
 
 import java.util.*;
 
@@ -39,12 +40,12 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public News getNewsById(int id) {
-        return newsRepository.findById(id).orElse(null);
+        return newsRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("News with id = " + id + " not found"));
     }
 
     @Override
     public News getNewsByDate(Date date) {
-        return newsRepository.findByDate(date).orElse(null);
+        return newsRepository.findByDate(date).orElseThrow(() -> new ResourceNotFoundException("News with date = " + date + " not found"));
     }
 
     //TODO
@@ -64,11 +65,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional
     public void updateNews(News news) {
-        News newsToBeUpdate = newsRepository.findById(news.getId()).orElse(null);
-
-        if (newsToBeUpdate == null){
-            LOGGER.info("News has not updated: " + news);
-        }
+        News newsToBeUpdate = newsRepository.findById(news.getId()).orElseThrow(() -> new ResourceNotFoundException("News with " + news.getTitle() + " not found"));
 
         news.setDate(newsToBeUpdate.getDate());
         // Todo При добавлении возможности обновить картинку, убрать

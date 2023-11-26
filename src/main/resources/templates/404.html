@@ -10,8 +10,13 @@
 
 <div class="container">
     <div class="form-group row">
-        <div class="col-md-8 offset-md-2">
-            <img th:src="@{/resources/404.jpeg}"/>
+        <div class="col-md-8 offset-md-2" style="margin-top: 100px;">
+            <img th:src="@{/img/error/404.jpg}"/>
+            <div style="text-align: center; position:relative; bottom: 120px">
+                <h3>Error:</h3>
+                <p th:text="${error.getMessage()}"></p>
+                <p th:text="'Status: ' + ${error.getStatusCode()}"></p>
+            </div>
         </div>
     </div>
 </div>

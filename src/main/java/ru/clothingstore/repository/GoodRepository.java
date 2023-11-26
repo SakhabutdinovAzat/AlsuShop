@@ -8,14 +8,15 @@ import ru.clothingstore.model.good.Category;
 import ru.clothingstore.model.good.Good;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface GoodRepository extends JpaRepository<Good, Integer> {
-    Good findByTitle(String title);
+    Optional<Good> findByTitle(String title);
 
-    Good findByTitleAndActive(String title, boolean active);
+    Optional<Good> findByTitleAndActive(String title, boolean active);
 
-    Good findByIdAndActive(int id, boolean active);
+    Optional<Good> findByIdAndActive(int id, boolean active);
 
     List<Good> findGoodsByCategory(Category category);
 

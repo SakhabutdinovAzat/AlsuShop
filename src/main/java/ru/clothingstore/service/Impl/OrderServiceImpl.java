@@ -17,6 +17,7 @@ import ru.clothingstore.repository.UserRepository;
 import ru.clothingstore.service.CartService;
 import ru.clothingstore.service.MailService;
 import ru.clothingstore.service.OrderService;
+import ru.clothingstore.util.exception.OrderNotFoundException;
 
 import java.util.*;
 
@@ -51,8 +52,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getOrderById(int id){
-        Optional<Order> optionalOrder = orderRepository.findById(id);
-        return optionalOrder.orElse(null);
+        return orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException("Order with id = " + id + " not found"));
     }
 
 //    @Override
@@ -93,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void update(Order updateOrder) {
         int orderId = updateOrder.getId();
-        Order orderToBeUpdated = orderRepository.findById(orderId).get();
+        Order orderToBeUpdated = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order with id = " + orderId + " not found"));
 
         updateOrder.setId(orderId);
         updateOrder.setOwner(orderToBeUpdated.getOwner()); // чтобы не терялась связь при обновлении

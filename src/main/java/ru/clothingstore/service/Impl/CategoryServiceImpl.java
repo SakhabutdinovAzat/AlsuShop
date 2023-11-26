@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.clothingstore.model.good.Category;
 import ru.clothingstore.repository.CategoryRepository;
 import ru.clothingstore.service.CategoryService;
+import ru.clothingstore.util.exception.CategoryNotFoundException;
 
 import java.util.HashSet;
 import java.util.List;
@@ -27,8 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category getCategoryById(int id) {
-        Category category = categoryRepository.getById(id);
-        return category;
+        return categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException("Good with id = " + id + " not found"));
     }
 
     @Override
@@ -48,13 +48,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void deleteCategoryById(int id) {
-        Category category = categoryRepository.getById(id);
-        if(category != null){
-            categoryRepository.delete(category);
-            LOGGER.info("Category was removed successfully: " + category);
-        } else {
-            LOGGER.warn("Category was not deleted, because is null");
-        }
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException("Good with id = " + id + " not found \nCategory was not deleted"));
+        categoryRepository.delete(category);
+        LOGGER.info("Category was removed successfully: " + category);
     }
 
     @Override

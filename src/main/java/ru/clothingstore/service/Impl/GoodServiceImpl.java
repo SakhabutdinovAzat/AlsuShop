@@ -13,6 +13,8 @@ import ru.clothingstore.model.good.Good;
 import ru.clothingstore.repository.CategoryRepository;
 import ru.clothingstore.repository.GoodRepository;
 import ru.clothingstore.service.GoodService;
+import ru.clothingstore.util.exception.CategoryNotFoundException;
+import ru.clothingstore.util.exception.GoodNotFoundException;
 
 import java.util.*;
 
@@ -33,22 +35,22 @@ public class GoodServiceImpl implements GoodService {
 
     @Override
     public Good getGoodByTitle(String title) {
-        return goodRepository.findByTitle(title);
+        return goodRepository.findByTitle(title).orElseThrow(()-> new GoodNotFoundException("Good with title: " + title + " not found"));
     }
 
     @Override
     public Good getGoodByTitle(String title, boolean active) {
-        return goodRepository.findByTitleAndActive(title, active);
+        return goodRepository.findByTitleAndActive(title, active).orElseThrow(()-> new GoodNotFoundException("Good with title: " + title + " not found"));
     }
 
     @Override
     public Good getGoodById(int id) {
-        return goodRepository.findById(id).orElse(null);
+        return goodRepository.findById(id).orElseThrow(()-> new GoodNotFoundException("Good with id = " + id + " not found"));
     }
 
     @Override
     public Good getGoodById(int id, boolean active) {
-        return goodRepository.findByIdAndActive(id, active);
+        return goodRepository.findByIdAndActive(id, active).orElseThrow(()-> new GoodNotFoundException("Good with id = " + id + " not found"));
     }
 
     @Override
@@ -65,13 +67,13 @@ public class GoodServiceImpl implements GoodService {
     // TODO Оптимизировать
     @Override
     public Set<Good> getGoodsByCategory(int categoryId) {
-        Category category = categoryRepository.getById(categoryId);
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException("Category with id = " + categoryId + " not found!"));
         return new HashSet<>(goodRepository.findGoodsByCategory(category));
     }
 
     @Override
     public Page<Good> getGoodsByCategory(int categoryId, boolean active, int offset, int limit, String sort) {
-        Category category = categoryRepository.getById(categoryId);
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException("Category with id = " + categoryId + " not found!"));
         return goodRepository.findGoodsByCategoryAndActive(category, active, PageRequest.of(offset, limit, Sort.by(sort)));
     }
 
