@@ -6,33 +6,43 @@
 </head>
 <body>
 
-<!--FOOTER-->
 <div th:fragment="modal">
 
     <!-- Modal -->
     <div class="modal fade" id="modalBuy" tabindex="-1" role="dialog" aria-labelledby="modalBuyLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Заголовок модального окна</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="modalBuyLabel">Information</h4>
-                </div>
-                <div class="modal-body">
-                    This good add to your cart
-                    <div class="modal-info">That
+            <div class="modal-content" th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
+                <div th:case="${false}">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="unauthModalLabel">Add good in cart</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="unauthModalBuyLabel">Information</h4>
+                    </div>
+                    <div class="modal-body">
+                        To add an item to your cart you need to log in
+                        <div class="modal-info">That
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                            <a type="button" class="btn btn-primary" href="/auth/login">Login</a>
                     </div>
                 </div>
-                <div class="modal-footer"
-                     th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
-                    <span th:case="${false}">
-                        <a type="button" class="btn btn-primary" href="/auth/login">Login</a>
-                    </span>
-                    <span th:case="${true}">
+                <div th:case="${true}">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="authModalLabel">Add good in cart</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="authModalBuyLabel">Information</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-info">This good added to your cart
+                        </div>
+                    </div>
+                    <div class="modal-footer">
                         <a href="#" type="button" class="btn btn-default" data-bs-dismiss="modal">Back to shopping</a>
                         <a href="/cart" type="button" class="btn btn-primary">Go to the Cart</a>
-                    </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,3 +51,48 @@
 
 </body>
 </html>
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Modal</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div th:fragment="modal">-->
+
+<!--    &lt;!&ndash; Modal &ndash;&gt;-->
+<!--    <div class="modal fade" id="modalBuy" tabindex="-1" role="dialog" aria-labelledby="modalBuyLabel" aria-hidden="true">-->
+<!--        <div class="modal-dialog" role="document">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>-->
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"><span-->
+<!--                            aria-hidden="true">&times;</span></button>-->
+<!--                    <h4 class="modal-title" id="modalBuyLabel">Information</h4>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    This good add to your cart-->
+<!--                    <div class="modal-info">That-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="modal-footer"-->
+<!--                     th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">-->
+<!--                    <span th:case="${false}">-->
+<!--                        <a type="button" class="btn btn-primary" href="/auth/login">Login</a>-->
+<!--                    </span>-->
+<!--                    <span th:case="${true}">-->
+<!--                        <a href="#" type="button" class="btn btn-default" data-bs-dismiss="modal">Back to shopping</a>-->
+<!--                        <a href="/cart" type="button" class="btn btn-primary">Go to the Cart</a>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--</body>-->
+<!--</html>-->

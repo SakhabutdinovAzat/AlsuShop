@@ -3,6 +3,7 @@
 <head>
     <title>Cart</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script th:src="@{/js/calculateCart.js}" type="text/javascript" defer></script>
 </head>
 
 <body>
@@ -16,7 +17,7 @@
     <div th:if="!${#lists.isEmpty(products)}">
         <div class="row" style="margin-top: 20px">
 
-            <div class="col-sm-12 row-eq-height" th:each="product : ${products}">
+            <div id="product-list" class="col-sm-12 row-eq-height" th:each="product : ${products}">
                 <div class="card mb-6" style="margin-bottom: 10px">
                     <div class="row g-0" style="padding: 10px 20px;">
                         <div class="col-md-3">
@@ -29,19 +30,21 @@
                                 <a th:href="@{/good/detail/{id}(id=${product.good.id})}">
                                     <h5 th:text="${product.good.title}" class="card-title"></h5>
                                 </a>
-<!--                                TODO Включить при обновлении бд-->
-<!--                                <p class="card-text"-->
-<!--                                     th:text="${#strings.substring(product.good.description, 0, 100).concat('...')}">-->
-<!--                                </p>-->
-                                <p th:text="${product.good.description}" class="card-text">Description</p>
-                                <p class="card-text" style="position: absolute; bottom: 25px;"><small class="text-body-secondary">Последнее обновление 3 мин. назад</small></p>
+                                <p class="card-text" th:if="${product.good.description.length() > 100}" style="text-align: left; min-height: 7rem;" th:text="${#strings.substring(product.good.description, 0, 100).concat('...')}"></p>
+                                <p class="card-text" th:unless="${product.good.description.length() > 100}" style="text-align: left; min-height: 7rem;" th:text="${product.good.description}"></p>
+<!--                                TODO добавить динамичность времени изменения-->
+                                <p class="card-text" style="position: absolute; bottom: 25px;"><small class="text-body-secondary" th:text="'Последнее обновление ' + ${product.getAddedAt().getMinutes()} + ' мин. назад'">Последнее обновление 3 мин. назад</small></p>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <a style="position: absolute; right: 0;"
-                               class="btn btn-default" th:href="@{/cart/delete/{id}(id=${product.id})}">
+                               class="btn btn-default delete-good" th:attr="delete-product-id=${product.id}">
                                 <i class="material-icons md-18">delete_forever</i>
                             </a>
+<!--                            <a id="delete-good" style="position: absolute; right: 0;"-->
+<!--                               class="btn btn-default" th:href="@{/cart/delete/{id}(id=${product.id})}">-->
+<!--                                <i class="material-icons md-18">delete_forever</i>-->
+<!--                            </a>-->
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item price">
                                     Price:&nbsp;<span th:text="${product.good.price}">Price</span>&nbsp;RUB
@@ -55,7 +58,7 @@
                                         <span class="good-count" style="margin: 10px 5px"
                                               th:text="${product.count}"></span>
                                         <button th:attr="data-id=${product.id}"
-                                                class="btn btn-default good-calc"><i
+                                                class="btn btn-default good-calc good-calc-down"><i
                                                 class="material-icons md-18">keyboard_arrow_down</i></button>
                                     </div>
                                 </li>
@@ -68,7 +71,7 @@
         <div class="row" style="margin-bottom: 10px">
             <div class="col-md-4" style="position: relative; left: 1000px;">
                 <h3>
-                    SUM <span th:text="${cart.sum}"></span> RUB
+                    SUM <span id="sum" th:text="${cart.sum}"></span> RUB
                 </h3>
                 <a style="margin-top: 10px" class="btn btn-success" th:href="@{/order/create}">Buy all...</a>
             </div>

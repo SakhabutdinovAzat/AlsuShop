@@ -1,5 +1,6 @@
 package ru.clothingstore.model.good;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class Category {
     @Column(name = "description")
     private String description;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category", orphanRemoval = true)
     private Set<Good> goods;
 

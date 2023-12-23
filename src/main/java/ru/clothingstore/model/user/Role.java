@@ -1,5 +1,6 @@
 package ru.clothingstore.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class Role {
     @Column(name = "name")
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "role")
     private List<User> users;
 

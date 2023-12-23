@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script th:src="@{/js/addToCart.js}" defer></script>
 </head>
 <body>
 
@@ -43,7 +44,7 @@
     <div th:if="${goodsPage.getNumber()} == 0">
         <h2 style="margin-top: 30px">NEW PRODUCTS</h2>
         <div class="row" style="margin-top: 20px">
-            <div class="col-sm-3 row-eq-height" th:each="good : ${newGoods}">
+            <div id="test-list" class="col-sm-3 row-eq-height" th:each="good, iStat : ${newGoods}">
                 <div class="card text-center mb-3" style="width: 18rem;">
                     <a th:href="@{/good/detail/{id}(id=${good.id})}">
                         <div class="card-img-top card-image-fixheight">
@@ -62,16 +63,19 @@
                             </li>
                         </ul>
                         <hr>
-                        <!--                        TODO  добавить срез строки при размере описания больше 100-->
-                        <!--                    <p class="card-text" th:text="${#strings.substring(good.description, 0, 100).concat('...')}"></p>-->
-                        <p class="card-text" style="text-align: left" th:text="${good.description}"></p>
+                        <p class="card-text" th:if="${good.description.length() > 100}" style="text-align: left; min-height: 7rem;" th:text="${#strings.substring(good.description, 0, 100).concat('...')}"></p>
+                        <p class="card-text" th:unless="${good.description.length() > 100}" style="text-align: left; min-height: 7rem;" th:text="${good.description}"></p>
                         <div class="card-footer">
-                            <form th:method="POST" th:action="@{/cart/buy/{id}(id=${good.id})}">
-                                <button type="submit" class="buy btn btn-success" data-bs-toggle="modal" data-bs-target="#modalBuy">
+<!--                            <form th:method="POST" th:action="@{/cart/buy/{id}(id=${good.id})}">-->
+<!--                                <button id="add-to-cart" type="submit" class="buy btn btn-success" data-bs-toggle="modal" data-bs-target="#modalBuy">-->
+<!--                                    <i class="bi bi-cart-plus"></i>-->
+<!--                                    Add to cart!+-->
+<!--                                </button>-->
+<!--                            </form>-->
+                                <button type="submit" class="buy btn btn-success add-to-cart" onclick="addInCart(this)" th:attr="good-id=${good.getId()},is-auth=${#authorization.expression('isAuthenticated()')}" data-bs-toggle="modal" data-bs-target="#modalBuy">
                                     <i class="bi bi-cart-plus"></i>
                                     Add to cart!+
                                 </button>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -102,16 +106,13 @@
                         </li>
                     </ul>
                     <hr>
-                    <!--  TODO Включить при обновлении бд-->
-                    <!--<p class="card-text" th:text="${#strings.substring(good.description, 0, 100).concat('...')}"></p>-->
-                    <p class="card-text" style="text-align: left" th:text="${good.description}"></p>
+                    <p class="card-text" th:if="${good.description.length() > 100}" style="text-align: left; min-height: 7rem;" th:text="${#strings.substring(good.description, 0, 100).concat('...')}"></p>
+                    <p class="card-text" th:unless="${good.description.length() > 100}" style="text-align: left; min-height: 7rem;" th:text="${good.description}"></p>
                     <div class="card-footer">
-                        <form th:method="POST" th:action="@{/cart/buy/{id}(id=${good.id})}">
-                            <button type="submit" class="buy btn btn-success" data-bs-toggle="modal" data-bs-target="#modalBuy">
-                                <i class="bi bi-cart-plus"></i>
-                                Add to cart!+
-                            </button>
-                        </form>
+                        <button type="submit" class="buy btn btn-success add-to-cart" onclick="addInCart(this)" th:attr="good-id=${good.getId()},is-auth=${#authorization.expression('isAuthenticated()')}" data-bs-toggle="modal" data-bs-target="#modalBuy">
+                            <i class="bi bi-cart-plus"></i>
+                            Add to cart!
+                        </button>
                     </div>
                 </div>
             </div>

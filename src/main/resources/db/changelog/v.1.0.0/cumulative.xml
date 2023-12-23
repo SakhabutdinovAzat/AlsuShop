@@ -11,4 +11,5 @@
     <include file="2023-07-13-2-insert-news.xml" relativeToChangelogFile="true" />
     <include file="2023-07-13-3-insert-goods.xml" relativeToChangelogFile="true" />
     <include file="2023-11-18-1-add-column-added_at-good.xml" relativeToChangelogFile="true" />
+    <include file="2023-12-09-1-drop-unique-constraint-products-name.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

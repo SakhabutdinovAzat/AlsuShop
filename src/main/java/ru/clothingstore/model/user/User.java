@@ -1,5 +1,6 @@
 package ru.clothingstore.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -98,6 +99,7 @@ public class User {
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Reputation reputation;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "owner")
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE,
             org.hibernate.annotations.CascadeType.REFRESH})

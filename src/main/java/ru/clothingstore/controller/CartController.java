@@ -1,8 +1,8 @@
 package ru.clothingstore.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -16,10 +16,7 @@ import ru.clothingstore.service.CartService;
 import ru.clothingstore.service.GoodService;
 import ru.clothingstore.service.UserService;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/cart")
@@ -48,8 +45,9 @@ public class CartController {
         return "cart/index";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable("id") int id){
+    @ResponseBody
+    @PostMapping("/delete/{id}")
+    public Set<Product> deleteProduct(@PathVariable("id") int id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
@@ -64,16 +62,16 @@ public class CartController {
 
         if (cart.getProducts().remove(product)){
             cartService.updateCart(cart);}
-        return "redirect:/cart";
+
+        return user.getCart().getProducts();
     }
 
-    // TODO реализовать
     @ResponseBody
-    @RequestMapping(value = {"/calculate"})
-    public String cartCalculate(@RequestBody Map<String, String> json) {
+    @PostMapping(value = {"/calculate"})
+    public Map<String, String> cartCalculate(@RequestBody Map<String, String> json) {
 
-        int id = Integer.valueOf(json.get("id"));
-        boolean isPlus = Boolean.valueOf(json.get("isPlus"));
+        int id = Integer.parseInt(json.get("id"));
+        boolean isPlus =  Boolean.parseBoolean(json.get("plus"));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
@@ -93,15 +91,16 @@ public class CartController {
         }
         cartService.updateCart(cart);
 
-        Map<String, Object> objects = new HashMap<>();
-        objects.put("count", product.getCount());
-        objects.put("sum", cart.getSum());
+        Map<String, String> objects = new HashMap<>();
+        objects.put("count", String.valueOf(product.getCount()));
+        objects.put("sum", String.valueOf(cart.getSum()));
 
-        return getJson(objects);
+        return objects;
     }
 
+    @ResponseBody
     @PostMapping(value = {"/buy/{id}"})
-    public String buyGood(@PathVariable("id") int id) {
+    public ResponseEntity<Good> buyGood(@PathVariable("id") int id) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -114,24 +113,9 @@ public class CartController {
         addItemInCart(good, cart);
         cartService.updateCart(cart);
 
-        // Todo релизовать или убрать
-//        return getJson("<b>" + good.getTitle() + "</b> been successfully added in your cart!");
-        return "redirect:/index";
+        return new ResponseEntity<>(good, HttpStatus.OK);
     }
 
-    // Метод для преобразования Java объекта в JavaScript объект или строку
-    private String getJson(Object object) {
-        ObjectMapper mapper = new ObjectMapper();
-        String result = null;
-        try {
-            result = mapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    // Метод добавляет Product в указанную корзину
     private void addItemInCart(Good good, Cart cart) {
         Set<Product> products = cart.getProducts();
         boolean flag = true;
@@ -139,6 +123,7 @@ public class CartController {
             if (product.getGood().equals(good)) {
                 product.setCount(product.getCount() + 1);
                 cart.setSum(cart.getSum() + good.getPrice());
+                product.setAddedAt(new Date());
                 flag = false;
             }
         }

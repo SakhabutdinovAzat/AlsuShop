@@ -1,5 +1,6 @@
 package ru.clothingstore.model.good;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -55,11 +56,13 @@ public class Good {
     @Column(name = "added")
     @Temporal(TemporalType.TIMESTAMP)
     private Date added;
+
     @NotNull
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "good", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Product> cartProducts = new HashSet<>();
 }

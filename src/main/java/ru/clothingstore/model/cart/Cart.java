@@ -1,5 +1,6 @@
 package ru.clothingstore.model.cart;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -24,9 +25,11 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.JOIN)
     private Set<Product> products;
