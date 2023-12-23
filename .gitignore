@@ -14,7 +14,7 @@ FileForDocker
 
 ### Tests ###
 src/main/resources/templates/test.html
-src/main/resources/static/js/test.js
+src/main/resources/static/js/tests
 src/main/java/ru/clothingstore/controller/TestController.java
 
 HELP.md
