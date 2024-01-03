@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
                     .antMatchers("/auth/login", "/auth/registration", "/error", "/swagger-ui/**").permitAll()
 //                    .antMatchers("/admin/**").hasRole("ROLE_ADMIN")
-                    .antMatchers("/cart/**", "/order/**").authenticated()
+                    .antMatchers("/cart/**", "/order/**", "/user/**").authenticated()
 //                    .anyRequest().authenticated()//hasAnyRole("ROLE_USER", "ROLE_ADMIN")
                     .anyRequest().permitAll()
                 .and()

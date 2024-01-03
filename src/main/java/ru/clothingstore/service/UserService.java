@@ -1,6 +1,7 @@
 package ru.clothingstore.service;
 
 import ru.clothingstore.model.order.Order;
+import ru.clothingstore.model.user.Profile;
 import ru.clothingstore.model.user.User;
 
 import java.security.Principal;
@@ -29,5 +30,5 @@ public interface UserService {
 
     boolean activateUser(String code);
 
-    void updateProfile(Principal principal, String password, String email);
+    void updateProfile(Principal principal, Profile profile);
 }

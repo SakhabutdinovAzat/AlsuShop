@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import ru.clothingstore.model.user.Profile;
 import ru.clothingstore.model.user.User;
 import ru.clothingstore.repository.UserRepository;
 import ru.clothingstore.service.Impl.MailServiceImpl;
@@ -25,6 +26,8 @@ import static org.mockito.Mockito.*;
 class UserServiceTest {
 
     private User user;
+
+    private Profile profile;
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -141,10 +144,12 @@ class UserServiceTest {
     void updateProfileNotUpdate() {
         user.setPassword("password");
         user.setEmail("email");
+        profile.setEmail(("email"));
+        profile.setPasswordActual("password");
         Principal principal = Mockito.mock(Principal.class);
         when(principal.getName()).thenReturn("username");
         when(userRepository.findByUsername("username")).thenReturn(Optional.of(user));
-        userService.updateProfile(principal, "", "email");
+        userService.updateProfile(principal, profile);
 
         verify(userRepository, times(1)).findByUsername("username");
         verify(userRepository, times(1)).save(user);
@@ -155,10 +160,12 @@ class UserServiceTest {
     void updateProfileOnlyPassword() {
         user.setPassword("password");
         user.setEmail("email");
+        profile.setEmail(("email"));
+        profile.setPasswordActual("password2");
         Principal principal = Mockito.mock(Principal.class);
         when(principal.getName()).thenReturn("username");
         when(userRepository.findByUsername("username")).thenReturn(Optional.of(user));
-        userService.updateProfile(principal, "password2", "email");
+        userService.updateProfile(principal, profile);
 
         verify(userRepository, times(1)).findByUsername("username");
         verify(userRepository, times(1)).save(user);
@@ -169,10 +176,12 @@ class UserServiceTest {
     void updateProfileOnlyEmail() {
         user.setPassword("password");
         user.setEmail("email");
+        profile.setEmail(("email2"));
+        profile.setPasswordActual("password");
         Principal principal = Mockito.mock(Principal.class);
         when(principal.getName()).thenReturn("username");
         when(userRepository.findByUsername("username")).thenReturn(Optional.of(user));
-        userService.updateProfile(principal, "", "email2");
+        userService.updateProfile(principal, profile);
 
         verify(userRepository, times(1)).findByUsername("username");
         verify(userRepository, times(1)).save(user);
@@ -184,10 +193,12 @@ class UserServiceTest {
     void updateProfilePasswordAndEmail() {
         user.setPassword("password");
         user.setEmail("email");
+        profile.setEmail(("email2"));
+        profile.setPasswordActual("password2");
         Principal principal = Mockito.mock(Principal.class);
         when(principal.getName()).thenReturn("username");
         when(userRepository.findByUsername("username")).thenReturn(Optional.of(user));
-        userService.updateProfile(principal, "password2", "email2");
+        userService.updateProfile(principal, profile);
 
         verify(userRepository, times(1)).findByUsername("username");
         verify(userRepository, times(1)).save(user);

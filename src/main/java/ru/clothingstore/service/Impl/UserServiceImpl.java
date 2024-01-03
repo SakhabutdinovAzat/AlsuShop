@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.clothingstore.model.cart.Cart;
 import ru.clothingstore.model.order.Order;
+import ru.clothingstore.model.user.Profile;
 import ru.clothingstore.model.user.Reputation;
 import ru.clothingstore.model.user.User;
 import ru.clothingstore.repository.UserRepository;
@@ -148,11 +149,11 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void updateProfile(Principal principal, String password, String email) {
+    public void updateProfile(Principal principal, Profile profile) {
         User user = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new UserNotFoundException("User not found!"));
         String userEmail = user.getEmail();
-
-        boolean isEmailChanged = (email != null && !email.equals(userEmail)) || (userEmail != null && !userEmail.equals(email));
+        String email = profile.getEmail();
+        boolean isEmailChanged = !email.isEmpty() && !email.equals(userEmail) && (email != null || userEmail != null);
 
         if (isEmailChanged) {
             user.setEmail(email);
@@ -162,8 +163,8 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        if (!password.isEmpty()) {
-            user.setPassword(passwordEncoder.encode(password));
+        if (!profile.getPassword1().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(profile.getPassword1()));
         }
 
         userRepository.save(user);
